@@ -1,0 +1,36 @@
+@extends('layouts.app')
+@section('title')
+	Schools
+@endsection
+@section('content')
+	<table class="bordered highlight">
+		<thead>
+		  <tr>
+		  	  <th></th>
+		      <th>Name</th>
+		      <th>Administrator</th>
+		      <th>Address</th>
+		      <th>Email</th>
+		      <th>Phone Number</th>
+		      <th>Mobile Number</th>
+		      <th>Status</th>
+		  </tr>
+		</thead>
+
+		<tbody>
+
+			@foreach ($schools as $school)
+			<tr class="data-row" onclick="showDetails('school',{{$school->id}})">
+			<td><img src="{{$school->logo}}" width="40" height="40"></td>
+		    <td>{{$school->name}}</td>
+		    <td>{{$school->admin}}</td>
+		    <td>{{$school->address}}</td>
+		    <td>{{$school->email}}</td>
+		    <td>{{$school->phonenumber}}</td>
+		    <td>{{$school->mobilenumber}}</td>
+		    <td>{{$school->status}}</td>
+		  </tr>
+			@endforeach
+		</tbody>
+	</table>
+@endsection
