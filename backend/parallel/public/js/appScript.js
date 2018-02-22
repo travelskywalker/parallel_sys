@@ -4,6 +4,15 @@ $(document).ready(function(){
 	$('select').material_select();
 	$(".button-collapse").sideNav();
 
+	$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15, // Creates a dropdown of 15 years to control year,
+	    today: 'Today',
+	    clear: 'Clear',
+	    close: 'Ok',
+	    closeOnSelect: true // Close upon selecting a date,
+	  });
+
 	$('#admission_number').focusout(function(){
 		var _self=this;
 
@@ -105,11 +114,13 @@ function sendForm(form, url){
 			$('.error-message').html('');
 		}
 
-		showToast('user has been saved');
+		console.log(response);
+		showToast(response.message);
 
-		setTimeout(function(){
-			window.location.href="/users";
-		}, 1000);
+
+		// setTimeout(function(){
+		// 	window.location.href="/users";
+		// }, 1000);
 		
 	})
 	.catch(function(error){

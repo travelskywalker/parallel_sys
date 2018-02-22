@@ -16,10 +16,10 @@ class CreateAdmissionsTable extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('admissionnumber');
-            $table->integer('studentid');
-            $table->integer('schooid');
-            $table->integer('classid');
-            $table->integer('sectionid');
+            $table->integer('student_id');
+            $table->integer('school_id');
+            $table->integer('classes_id');
+            $table->integer('section_id');
             $table->string('status');
             $table->text('notes');
             $table->text('description');

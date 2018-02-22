@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\School;
 use App\Classes;
 use App\Admission;
+use App\Student;
 
 class AdmissionController extends Controller
 {
@@ -34,9 +35,54 @@ class AdmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'classes_id' => 'required',
+            'section_id' => 'required',
+            'admission_id' => 'required',
+            'student_id' => 'required',
+            'admission_date' =>'required',
+            'first_name' => 'required',
+            'middle_name' => 'required',
+            'last_name' => 'required',
+            'birthdate' => 'required',
+            'fathers_name' => 'required',
+            'mothers_name' => 'required',
+            'guardian_name' => 'required',
+            'emergencycontactnumber' => 'required',
+        ]);
+
+        // create student
+        $student = Student::create([
+            'studentnumber' => $request->student_id,
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
+            'address' =>$request->address,
+            'fathersname' => $request->fathers_name,
+            'mothersname' => $request->mothers_name,
+            'guardianname' => $request->guardian_name,
+            'emergencycontactnumber' => $request->emergencycontactnumber,
+            'nationality' => $request->nationality,
+            'religion' => $request->religion,
+            'status' => 'Enrolled',
+        ]);
+
+        // create admission
+        Admission::create([
+            'admissionnumber' => $request->admissionnumber,
+            'student_id' => $student->id,
+            'school_id' => $request->school_id,
+            'classes_id' => $request->classes_id,
+            'status' => $request->status,
+            'notes' => $request->notes,
+            'description' => $request->description,
+        ]);
+
+        return response()->json(['message'=>'Student has been enrolled','data'=>$request]);
     }
 
     /**
@@ -47,7 +93,7 @@ class AdmissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

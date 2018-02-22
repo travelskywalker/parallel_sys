@@ -38,3 +38,4 @@ Route::get('/access', 'AccessController@index');
 
 // admission
 Route::get('/admission/{number}/{userschoolid}', 'AdmissionController@searchAdmissionData');
+Route::post('/admission/new', 'AdmissionController@create');
