@@ -27,7 +27,7 @@
         <!-- navbar -->
         <div class="navbar-fixed">
 
-            <nav>
+            <nav class="nav-extended">
                 <div class="nav-wrapper">
                   <a href="/home" class="brand-logo right">Parallel</a>
 
@@ -40,23 +40,35 @@
                     <li><a href="/classes">Class</a></li>
                     <li><a href="/sections">Sections</a></li>
                     <li><a href="/admissions">Admissions</a></li>
-                    <li><a href="/payments">Payments</a></li>
                   </ul>
                   @endif
-
-
                 </div>
+                @if(Auth::check())
+                    <div class="nav-content grey">
+                      <ul class="tabs tabs-transparent sub-nav">
+                        @yield('sub-bar')
+
+                        <li class="right system-tab right-align">
+                            <div id="system-clock">
+                            </div>
+                            <div>
+                                logged in as admin | <span class="logout">logout</span>
+                            </div>
+                        </li>
+                      </ul>
+                    </div>
+                @endif
             </nav>
         </div>
-
 
         <!-- content -->
         <div class="container">
             <div class="row">
-
+                @if(Auth::check())
                 <div class="col s3">
                 <!-- Grey navigation panel -->
-                 @if(Auth::check())
+                @yield('sidenav')
+                 
                   <ul id="" class="" >
                     <li>
                         <div class="row">
@@ -64,7 +76,7 @@
                                 {{Auth::user()->name}}
                             </div>
                             <div>
-                                <a href="/logout">logout</a>
+                                
                             </div>
                         </div>
                     </li>
@@ -103,10 +115,11 @@
                     <li><div class="divider"></div></li>
                   </ul>
 
-                @endif
                 </div>
+                @endif
 
                 <div class="col s9">
+
                     <div class="row">
                     </div>
                     <div class="row">
@@ -114,15 +127,14 @@
                             $rootUrls = ['schools','students','teachers','classes','sections', 'login'];
                         ?>
                        @if(!in_array(Request::path(), $rootUrls))
-                        <i class="material-icons back-btn" title="back" onclick="backbtnclick()">arrow_back</i>
+                        <!-- <i class="material-icons back-btn" title="back" onclick="backbtnclick()">arrow_back</i> -->
                        @endif
                     </div>
                     <div class="row">
                         @yield('content-title')
                     </div>
-                    <div class="row">
+                    <div class="row s12">
                         @yield('content')
-
                     </div>
                 </div>
             </div>
@@ -137,5 +149,8 @@
     <script src="{{asset('js/materialize.min.js')}}"></script>
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
     <script src="{{ asset('js/appScript.js') }}"></script>
+    <script src="{{ asset('lang/lang-en.js') }}"></script>
+
+    @yield('pagescript')
 </body>
 </html>

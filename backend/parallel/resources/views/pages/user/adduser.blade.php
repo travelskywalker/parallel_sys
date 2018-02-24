@@ -1,7 +1,4 @@
-@extends('layouts.app')
-
-
-@section('content')
+Add User
 <div class="row error-container">
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>
@@ -43,7 +40,6 @@
 		  </div>
   	</div>
   	<div class="row">
-  		<a class="waves-effect waves-light btn" onclick="sendForm('add_user_form','/api/user/add')">Add User</a>
+  		<a class="waves-effect waves-light btn" onclick="sendForm('add_user_form','/api/user/add', 'users')">Add User</a>
   	</div>
 </form>
-@endsection

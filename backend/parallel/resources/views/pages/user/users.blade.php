@@ -1,8 +1,4 @@
-@extends('layouts.app')
-@section('sidenav')
-	@yield('sidenavcontent')
-@endsection
-@section('content')
+
 	<table class="bordered highlight">
 		<thead>
 		  <tr>
@@ -25,4 +21,3 @@
 			@endforeach
 		</tbody>
 	</table>
-@endsection

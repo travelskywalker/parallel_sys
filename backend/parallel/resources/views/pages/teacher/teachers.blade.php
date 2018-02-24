@@ -1,10 +1,4 @@
-@extends('layouts.app')
 
-@section('title')
-Teacher
-@endsection
-
-@section('content')
 	<table class="bordered highlight">
 		<thead>
 		  <tr>
@@ -31,4 +25,3 @@ Teacher
 			@endforeach
 		</tbody>
 	</table>
-@endsection

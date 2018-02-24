@@ -21,12 +21,15 @@ class SchoolController extends Controller
         // return SchoolResource::collection(School::all());
         if(Auth::user()->access_id != 0){
             $school_id = Auth::user()->school_id;
-
             return $this->show($school_id);
         }else{
             $schools = School::orderby('name', 'asc')->get();
             return view('pages.school.school')->with('schools', $schools);
         }
+    }
+
+    public function all(){
+
     }
 
     /**
@@ -72,7 +75,7 @@ class SchoolController extends Controller
             ]
         );
 
-        // return view('pages.school.details')->with('school', $data);
+        return view('pages.school.details')->with('school', $data);
 
     }
 
@@ -82,6 +85,11 @@ class SchoolController extends Controller
         return view('pages.school.classes')->with('classes', $classes);
     }
 
+    public function getclasses($school_id){
+        $classes = Classes::where('school_id', '=', $school_id)->get();
+
+        return response()->json(['data'=>$classes]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

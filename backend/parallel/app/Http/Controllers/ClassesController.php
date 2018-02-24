@@ -70,6 +70,11 @@ class ClassesController extends Controller
         return view('pages.classes.class')->with(['class'=>$class, 'school'=>$school]);
     }
 
+    public function addclassesview(){
+        return "ok";
+        return view('pages.classes.add')->with();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

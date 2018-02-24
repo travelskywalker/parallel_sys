@@ -1,79 +1,46 @@
-$(document).ready(function(){
-	// initialization
-	$('.modal').modal();
-	$('select').material_select();
-	$(".button-collapse").sideNav();
 
-	$('.datepicker').pickadate({
-	    selectMonths: true, // Creates a dropdown to control month
-	    selectYears: 15, // Creates a dropdown of 15 years to control year,
-	    today: 'Today',
-	    clear: 'Clear',
-	    close: 'Ok',
-	    closeOnSelect: true // Close upon selecting a date,
-	  });
-
-	$('#admission_number').focusout(function(){
-		var _self=this;
-
-		if($(this).val() == '') return 
-
-		var school_id = $('#admission_school_id').html();
-		var url = '/api/admission/'+$(this).val()+'/'+school_id;
-
-		sendAPI('GET', url).then(function(response){
-			if(response.data.length > 0 ){
-				// no admission in database
-				$(_self).removeClass('valid').addClass('invalid');
-				showToast('Admission number exists in database');
-			}else{
-
-			}
-		});
-	});
-
-	$('select#admission_section_id').change(function(){
-		console.log('section change');
-
-		// get api
-		var url ='/api/section/'+$(this).val();
-		sendAPI('GET', url).then(function(response){
-			var data = response.data[0];
+var path = window.location.pathname;
+var app = {
+	"main_content" : $('#app-main'),
+	"path" : path,
+	"page_stack" : []
+	};
 
 
-			$('.section-teacher').html(data.firstname+ ' ' +data.lastname);
-			$('.section-time').html(timeFormat(data.timefrom)+ ' - ' +timeFormat(data.timeto));
-			$('.new-admission-section-details').show();
-		});
+function loadIndex(){
+	loadContent(app.path+'/index', 'index');
+}
 
-	});
+function loadContent(url,pagefrom){
 
-	$('select#admission_class_id').change(function(){
-		// get api
-		var url ='/api/class/'+$(this).val()+'/sections';
-		sendAPI('GET', url).then(function(response){
+	// append loader
+	app.main_content.html(loader());
 
-			// remove section content
-			$('#admission_section_id option').remove();
-			$('#admission_section_id').append('<option value="" disabled selected>select section</option>');
-			$('.new-admission-section-details').hide();
 
-			// populate
-			$.each(response.data, function(key,val){
-				$('#admission_section_id').append('<option value="'+val.id+'">'+val.name+'</option>');
-			});
+	sendAPI('GET', url).then(function(response){
 
-			$('select').material_select();
-		});
-	});
+		app.main_content.html(response);
 
-	$('select#access_id').change(function(){
-		if($(this).val() != 0){
-			$('#school_id_wrapper').show();
-		}else{
-			$('#school_id_wrapper').hide();
+		// add page to page stack
+		app.page_stack.push(url);
+
+		console.log(app.page_stack);
+
+		// initialize page init for jquery and other function
+		if(pagefrom != 'index') init();
+	})
+	.catch(function(error){
+
+		if(error){ 
+			app.main_content.html('<div class="error"><i class="material-icons">error</i> something went wrong. Please refresh this page</div>');
+			showToast('<i class="material-icons">error</i> something went wrong');
 		}
 	});
+}
+
+function initialize(){
+
+	$('.modal').modal();
 
 	$('.data-row').hover(function(){
 		$(this).find('.data-edit-btn').show();
@@ -83,8 +50,64 @@ $(document).ready(function(){
 		$(this).find('.data-edit-btn').hide();
 	});
 
+	
+}
+
+function showDetails(page,id){
+	// window.location.href = '/'+page+'/'+id;
+
+	var url = '/'+page+'/'+id;
+	loadContent(url, page);
+}
+
+
+$(document).ready(function(){
+	clock('system-clock');
+	// initialization
+	initialize();
+
+	$('.logout').click(function(){
+		window.location.href = '/logout';
+	});
+
+	$('.sidenav .nav').click(function(){
+		var url = $(this).attr('url');
+		loadContent(url);
+	});
+
+	$('.sub-nav .tab').click(function(){
+
+		// add path of exempted pages for omission of 's'
+		var page_exempt = ['/classes'];
+		var type = $(this).attr('type');
+		var newpath;
+
+		// check if path is in exempted pages
+		if($.inArray(app.path, page_exempt) >= 0) p = app.path;
+		else p = app.path.slice(0, -1);
+
+		if(type == 'index') loadIndex();
+		else loadContent(p+'/'+type);
+	});
+	
 });
 
+function loader(){
+	var loader = '<div style="width: 100%" class="center-align">';
+		loader += '<div class="preloader-wrapper small active">';
+		loader += '<div class="spinner-layer spinner-green-only">';
+		loader += '<div class="circle-clipper left">';
+		loader += '<div class="circle"></div>';
+		loader += '</div><div class="gap-patch">';
+		loader += '<div class="circle"></div>';
+		loader += '</div><div class="circle-clipper right">';
+		loader += '<div class="circle"></div>';
+		loader += '</div>';
+		loader += '</div>';
+		loader += '</div>';
+		loader += '</div>';
+	return loader;
+}
 
 function timeFormat(timeString){
 	var H = +timeString.substr(0, 2);
@@ -95,7 +118,6 @@ function timeFormat(timeString){
 	return timeString;
 }
 
-
 function showToast(message){
 	Materialize.toast(message, 2000);
 }
@@ -103,10 +125,8 @@ function validateForm(form){
 	console.log(form.attr('id'));
 }
 
-function sendForm(form, url){
+function sendForm(form, url, successpage){
 	var data = $('#'+form).serializeArray();
-
-	console.log(data);
 
 	sendAPI('POST', url, data).then(function(response){
 		if($('.error-data').html() != ''){
@@ -118,9 +138,10 @@ function sendForm(form, url){
 		showToast(response.message);
 
 
-		// setTimeout(function(){
-		// 	window.location.href="/users";
-		// }, 1000);
+		setTimeout(function(){
+			// window.location.href="/users";
+			window.location.href= '/'+successpage;
+		}, 1000);
 		
 	})
 	.catch(function(error){
@@ -133,13 +154,22 @@ function sendForm(form, url){
 			console.log(val);
 			$('.error-data').append('<li>'+val+'</li>');
 		});
+
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
 	});
 }
 
+function admissionFormSubmit(form, url){
 
-function showDetails(page,id){
-	window.location.href = '/'+page+'/'+id;
+	if($('#admission_number').hasClass('invalid')){
+		showToast(language.admissionnumexist);
+	}else if ($('#admission_student_id').hasClass('invalid')){
+		showToast(language.studentnumexist);
+	}else{
+		sendForm(form,url,'admissions');
+	}
 }
+
 
 function editDetails(page, id){
 	window.location.href = '/'+page+'/edit/'+id;
@@ -148,7 +178,6 @@ function editDetails(page, id){
 function updateDetails(page, form){
 	var data = $('#'+form).serialize();
 	
-
 	sendAPI('POST', page, data).then(function(response){
 		if($('.error-data').html() != ''){
 			$('.error-data').html('');
@@ -194,4 +223,58 @@ function sendAPI(method,url,data){
 	        }
 	    })
 	);
+}
+
+function clock(id){
+	/*var myVar = setInterval(function() {
+	  myTimer();
+	}, 1000);
+
+	function myTimer() {
+	  var d = new Date();
+	  document.getElementById("system-clock").innerHTML = d.toLocaleTimeString();
+	}*/
+
+	date = new Date;
+    year = date.getFullYear();
+    month = date.getMonth();
+    months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+    d = date.getDate();
+    day = date.getDay();
+    days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+
+    h = date.toLocaleTimeString();
+
+    // h = date.getHours();
+    // if(h<10)
+    // {
+    //         h = "0"+h;
+    // }
+    // m = date.getMinutes();
+    // if(m<10)
+    // {
+    //         m = "0"+m;
+    // }
+    // s = date.getSeconds();
+    // if(s<10)
+    // {
+    //         s = "0"+s;
+    // }
+    // result = ''+days[day]+' '+months[month]+' '+d+' '+year+' '+h+':'+m+':'+s;
+
+    result = ''+days[day]+', '+months[month]+' '+d+' '+year+', '+h;
+
+
+    document.getElementById(id).innerHTML = result;
+    setTimeout('clock("'+id+'");','1000');
+    return true;
+
+
+}
+
+function test(){
+
+	sendAPI('GET', '/admission/add').then(function(response){
+		$('.spa-content').append(response);
+	})
 }

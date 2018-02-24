@@ -12,11 +12,15 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'studentnumber', 'firstname', 'middlename', 'lastname', 'gender', 'address', 'fathersname', 'mothersname', 'guardianname', 'emergencycontactnumber', 'nationality', 'religion', 'image', 'notes', 'description', 'status'
+        'studentnumber', 'firstname', 'middlename', 'lastname', 'gender', 'birthdate', 'birthplace', 'bloodtype', 'address', 'fathersname', 'mothersname', 'guardianname', 'emergencycontactnumber', 'nationality', 'religion', 'image', 'notes', 'description', 'status'
     ];
 
 
     public function section(){
-    	return $this->hasMany('section');
+    	return $this->hasMany('App\Section');
+    }
+
+    public function admission(){
+    	return $this->hasMany('App\Admission');
     }
 }

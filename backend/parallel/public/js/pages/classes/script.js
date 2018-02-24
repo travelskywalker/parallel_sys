@@ -1,0 +1,5 @@
+loadIndex();
+
+function init(){
+	
+}

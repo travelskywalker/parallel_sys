@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use App\School;
 use App\Classes;
 use App\Admission;
@@ -19,15 +20,34 @@ class AdmissionController extends Controller
      */
     public function index()
     {
+        $user_school_id = Auth::user()->school_id;
 
-        return view('pages.admission.admissions');
+        $admissions = DB::table('admissions')
+            ->select('admissions.id','admissions.date', 'students.studentnumber', 'students.firstname', 'students.lastname', 'admissions.student_id', 'admissions.school_id', 'admissions.status', 'schools.name as school_name')
+            ->leftJoin('students', 'students.id', '=', 'admissions.student_id')
+            ->leftJoin('schools', 'schools.id', '=', 'admissions.school_id')
+            ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('schools.id', $user_school_id);
+            })
+            ->get();
+
+        return view('pages.admission.admissions')->with(['admissions'=>$admissions]);
     }
 
     public function showadmissionview(){
-        $school = School::find(Auth::user()->school_id);
 
-        $classes = Classes::where('school_id', '=', $school->id)->get();
-        return view('pages.admission.add')->with(['school'=>$school, 'classes'=>$classes]);
+        $user_school_id = Auth::user()->school_id;
+
+
+        $schools = School::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('id', $user_school_id);
+            })->get();
+
+        $classes = Classes::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('school_id', $user_school_id);
+            })->get();
+
+        return view('pages.admission.add')->with(['schools'=>$schools, 'classes'=>$classes]);
     }
 
     /**
@@ -37,7 +57,9 @@ class AdmissionController extends Controller
      */
     public function create(Request $request)
     {
+
         $validatedData = $request->validate([
+            'school_id' => 'required',
             'classes_id' => 'required',
             'section_id' => 'required',
             'admission_id' => 'required',
@@ -53,12 +75,15 @@ class AdmissionController extends Controller
             'emergencycontactnumber' => 'required',
         ]);
 
+        $request->birthdate = \Carbon\Carbon::parse($request->birthdate);
+        $request->admission_date = \Carbon\Carbon::parse($request->admission_date);
+
         // create student
         $student = Student::create([
             'studentnumber' => $request->student_id,
-            'firstname' => $request->firstname,
-            'middlename' => $request->middlename,
-            'lastname' => $request->lastname,
+            'firstname' => $request->first_name,
+            'middlename' => $request->middle_name,
+            'lastname' => $request->last_name,
             'gender' => $request->gender,
             'birthdate' => $request->birthdate,
             'address' =>$request->address,
@@ -69,18 +94,27 @@ class AdmissionController extends Controller
             'nationality' => $request->nationality,
             'religion' => $request->religion,
             'status' => 'Enrolled',
-        ]);
-
-        // create admission
-        Admission::create([
-            'admissionnumber' => $request->admissionnumber,
-            'student_id' => $student->id,
+        ])->admission()->create([
+            'admissionnumber' => $request->admission_id,
+            'date' => $request->admission_date,
             'school_id' => $request->school_id,
             'classes_id' => $request->classes_id,
-            'status' => $request->status,
+            'section_id' => $request->section_id,
+            'status' => 'enrolled',
             'notes' => $request->notes,
             'description' => $request->description,
         ]);
+
+        // create admission
+        // $admission = Admission::create([
+        //     'admissionnumber' => $request->admissionnumber,
+        //     'student_id' => $student->id,
+        //     'school_id' => $request->school_id,
+        //     'classes_id' => $request->classes_id,
+        //     'status' => $request->status,
+        //     'notes' => $request->notes,
+        //     'description' => $request->description,
+        // ]);
 
         return response()->json(['message'=>'Student has been enrolled','data'=>$request]);
     }
@@ -93,7 +127,7 @@ class AdmissionController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -104,12 +138,28 @@ class AdmissionController extends Controller
      */
     public function show($id)
     {
-        //
+        $user_school_id = Auth::user()->school_id;
+
+        // $schools = School::all();
+
+        
+
+        $admission = DB::table('admissions')
+            ->select('admissions.*','admissions.date', 'students.studentnumber', 'students.firstname', 'students.lastname', 'schools.name as school_name', 'classes.*', 'classes.name as class_name')
+            ->leftJoin('students', 'students.id', '=', 'admissions.student_id')
+            ->leftJoin('schools', 'schools.id', '=', 'admissions.school_id')
+            ->leftJoin('classes', 'classes.school_id', '=', 'schools.id')
+            ->where('admissions.id','=', $id)
+            ->get();
+
+            $classes = Classes::where('school_id', '=', $admission[0]->school_id);
+
+            return view('pages.admission.admission')->with(['admission'=>$admission, 'classes'=>$classes]);
     }
 
-    public function searchAdmissionData($number, $userschoolid){
+    public function searchAdmissionData($admissionnumber, $userschoolid){
 
-        $admission = Admission::where('admissionnumber','=', $number, 'and', 'schoolid', '=', $userschoolid)->get();
+        $admission = Admission::where('admissionnumber','=', $admissionnumber, 'and', 'schoolid', '=', $userschoolid)->get();
 
         return response()->json(['data'=>$admission]);
     }

@@ -39,9 +39,10 @@ class UserController extends Controller
     public function adduserview(){
 
         $user_school_id = Auth::user()->school_id;
-
-        $accesses = Access::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
-                        return $query->where('accesses.id', '>=', $user_school_id);
+        $access_id = Auth::user()->access_id;
+        
+        $accesses = Access::when(Auth::user()->access_id != 0, function ($query) use ($access_id) {
+                        return $query->where('accesses.id', '>=', $access_id);
                     })->get();
 
         $schools = School::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
@@ -109,6 +110,22 @@ class UserController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function getstudentbystudentnumber($studentnumber, $school_id){
+
+        $student = DB::table('students')
+            ->select('students.id', 'students.studentnumber', 'admissions.student_id', 'admissions.school_id')
+            ->leftJoin('admissions', 'admissions.student_id', '=', 'students.id')
+            ->where('admissions.school_id', '=', $school_id)
+            ->where('students.studentnumber', '=', $studentnumber)
+            // ->orderBy('users.name', 'asc')
+            // ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+            //     return $query->where('users.school_id', $user_school_id);
+            // })
+            ->get();
+
+        return response()->json(['data'=> $student]);
     }
 
     /**

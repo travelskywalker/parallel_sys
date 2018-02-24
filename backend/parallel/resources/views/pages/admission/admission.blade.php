@@ -1,4 +1,3 @@
-<h5 class="center">Admission Form</h5>
 <div class="row error-container">
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>
@@ -14,10 +13,7 @@
 	          		<div class="row">
 	          			<div class="input-field col s12">
 						    <select id="admission_school_id" name="school_id">
-						      		@if(Auth::user()->access_id == 0)<option value="" disabled selected>Select School</option>@endif
-						      	@foreach($schools as $school)
-						      		<option value="{{$school->id}}">{{$school->name}}</option>
-						      	@endforeach
+							      <option value="{{$admission[0]->school_id}}">{{$admission[0]->school_name}}</option>
 						    </select>
 						    <label>School</label>
 						</div>
@@ -99,8 +95,8 @@
 					         <div class="input-field col">
 							    <select id="admission_gender" name="gender">
 							      		<option value="" disabled selected>gender</option>
-							      		<option value="male">Male</option>
-							      		<option value="female">Female</option>
+							      		<option value="male">male</option>
+							      		<option value="female">female</option>
 							    </select>
 							    <label>Gender</label>
 							</div>

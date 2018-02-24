@@ -21,10 +21,13 @@ class CreateStudentsTable extends Migration
             $table->string('middlename');
             $table->string('gender');
             $table->date('birthdate');
+            $table->string('birthplace')->nullable();
+            $table->string('bloodtype')->nullable();
             $table->text('address');
             $table->string('fathersname');
             $table->string('mothersname');
             $table->string('guardianname');
+            $table->string('guardianrelationship');
             $table->integer('emergencycontactnumber');
             $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
