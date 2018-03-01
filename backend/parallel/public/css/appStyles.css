@@ -1,4 +1,4 @@
-.back-btn, .data-row, .collapsible-body ul li, .logout{
+.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user{
 	cursor: pointer;
 }
 
@@ -31,6 +31,63 @@
 	height: 113px;
 }
 
+.navcrumb .breadcrumb{
+	color: grey;
+}
+
+.navcrumb .breadcrumb::before{
+	color: grey;
+	font-size: 20px;
+}
+
+.breadcrumb.active{
+	color: black;
+}
+
+.add-image-container{
+	width: 200px;
+	height: 200px;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	background-color: #f7f7f7;
+	background-size: cover !important;
+	background-position: 50% 50% !important;
+	padding: 5px;
+    text-align: center;
+    font-size: 10px;
+
+}
+
+.add-image-container::after {
+    content: "click to upload image";
+    width: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 48%;
+    color: darkgray;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+nav .brand-logo.right{
+	margin-right: 64px;
+}
+
+.school-logo{
+	background-size: cover !important;
+    background-position: center !important;
+    width: 64px;
+    height: 64px;
+}
+
+#system_user{
+	display: inline block !important;
+	float:none;
+	margin: 0px;
+}
 
 
 

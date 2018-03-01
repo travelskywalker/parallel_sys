@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // school
 Route::get('/school/list', 'SchoolController@index');
+Route::post('/school/new', 'SchoolController@create');
 Route::get('/school/{school_id}/classes', 'SchoolController@getclasses');
 // teacher
 
@@ -33,6 +34,8 @@ Route::get('/section/{id}', 'SectionController@findData');
 
 // user
 Route::post('/user/add', 'UserController@create');
+	// spa
+	// Route::get('/spa/user/edit/{id}/{nav}', 'UserController@edit');
 
 // access
 Route::get('/access', 'AccessController@index');
@@ -40,3 +43,7 @@ Route::get('/access', 'AccessController@index');
 // admission
 Route::get('/admission/{admissionnumber}/{userschoolid}', 'AdmissionController@searchAdmissionData');
 Route::post('/admission/new', 'AdmissionController@create');
+
+// Route::get('/admissions', 'AdmissionController@api_index');
+
+Route::post('/temp/imageupload', 'UploadController@tempImage');

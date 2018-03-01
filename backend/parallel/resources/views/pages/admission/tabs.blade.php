@@ -1,5 +1,5 @@
-<li class="tab" type="index"><a class="active">Manage</a></li>
-<li class="tab" type="new" id="new_admission"><a class="" href="#test2">New</a></li>
+<li class="tab" url="/admission"><a class="@if($page == 'index') active @endif waves-effect">Manage</a></li>
+<li class="tab" url="/admission/new" id="new_admission"><a class="@if($page == 'add') active @endif waves-effect">New</a></li>
 
 
 <!-- Tap Target Structure -->

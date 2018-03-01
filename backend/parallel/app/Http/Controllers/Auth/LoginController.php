@@ -24,7 +24,7 @@ class LoginController extends Controller
 
     protected function authenticated()
     {
-     return redirect('/home');
+     return redirect('/admin');
     }
 
     /**
@@ -32,7 +32,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin';
 
 
 

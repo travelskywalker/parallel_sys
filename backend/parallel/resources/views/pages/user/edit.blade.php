@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="row error-container">
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>
@@ -46,4 +43,3 @@
   		</div>
   	</div>
 </form>
-@endsection

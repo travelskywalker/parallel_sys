@@ -9,15 +9,11 @@
 @endsection
 
 @section('sidenav')
-	@include('pages.admin.sidenav');
+	@include('pages.admin.sidenav')
 @endsection
 
 @section('content')
-<div class="col s12">
-	<div id="app-main">
-		index kkasdf
-	</div>
-</div>
+	<div id="app-main"></div>
 @endsection
 
 

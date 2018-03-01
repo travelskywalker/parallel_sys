@@ -1,2 +1,2 @@
-<li class="tab" type="index"><a class="active">Manage</a></li>
-<li class="tab" type="add"><a class="" href="#test2">Add</a></li>
+<li class="tab" url="/section"><a class="@if($page == 'index') active @endif waves-effect">Manage</a></li>
+<li class="tab" url="/section/add"><a class="@if($page == 'add') active @endif waves-effect">Add</a></li>

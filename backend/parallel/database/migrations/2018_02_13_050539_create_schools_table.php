@@ -24,8 +24,8 @@ class CreateSchoolsTable extends Migration
             $table->text('address');
             $table->text('city')->nullable();
             $table->string('email')->nullable();
-            $table->smallInteger('phonenumber')->nullable();
-            $table->smallInteger('mobilenumber')->nullable();
+            $table->integer('phonenumber')->nullable();
+            $table->integer('mobilenumber')->nullable();
 
             $table->text('logo')->nullable();
 

@@ -1,7 +1,9 @@
 loadIndex();
 
 function init(){
+
 	$('select').material_select();
+	
 	$(".button-collapse").sideNav();
 
 	$('.datepicker').pickadate({
@@ -16,7 +18,6 @@ function init(){
 
 
 	$('#admission_number').focusout(function(){
-		alert('o;')
 		var _self=this;
 
 		if($(this).val() == '') return 
@@ -128,4 +129,6 @@ function init(){
 	});
 }
 
-$('.tap-target').tapTarget('open');
+
+// for tuts
+// $('.tap-target').tapTarget('open');

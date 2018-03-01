@@ -15,7 +15,7 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($fullpage=true)
     {   
 
         $user_school_id = Auth::user()->school_id;
@@ -28,9 +28,12 @@ class TeacherController extends Controller
             })
             ->get();
 
-        return view('pages.teacher.teachers')->with(['teachers'=>$teachers]);
+        return view('pages.teacher.teachers')->with(['teachers'=>$teachers, 'fullpage'=>$fullpage, 'page'=>'index']);
     }
 
+    public function api_index(){
+        return $this->index(false);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -58,15 +61,27 @@ class TeacherController extends Controller
      * @param  \App\Teachers  $teachers
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher, Section $section, $id)
+    public function show($fullpage = true, $id)
     {
+
+        return $id;
         $teacher = Teacher::find($id);
 
-        $sections = Teacher::find($id)->sections;
+        $sections = Teacher::find($id)->section;
 
+        // return view('pages.teacher.teacher')->with(['teacher' => $teacher, 'sections' => $sections, 'fullpage'=>$fullpage, 'page'=>'teacher']);
+    }
 
+    public function api_show($id){
+        return $this->show(false, $id);
+    }
 
-        return view('pages.teacher.teacher')->with(['teacher' => $teacher, 'sections' => $sections]);
+    public function shownewteacher($fullpage=true){
+        return view('pages.teacher.add')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+    }
+
+    public function api_shownewteacher(){
+        return $this->shownewteacher(false);
     }
 
     /**

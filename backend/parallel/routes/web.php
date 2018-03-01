@@ -19,57 +19,57 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	// school
-	Route::get('/schools', function(){
-		return view('pages.school.index');
-	});
+	Route::get('/school', 'SchoolController@index');
+	Route::get('/s/school', 'SchoolController@api_index');
 
-	Route::get('/schools/index', 'SchoolController@index');
+	Route::get('/school/add', 'SchoolController@shownewschool');
+	Route::get('/s/school/add', 'SchoolController@api_shownewschool');
 
 	Route::get('/school/{id}', 'SchoolController@show');
 	Route::get('/school/classes/{id}', 'SchoolController@showclasses');
 
 	// teacher
+	Route::get('/teacher', 'TeacherController@index');
+	Route::get('/s/teacher', 'TeacherController@api_index');
 
-	Route::get('/teachers', function(){
-		return view('pages.teacher.index');
-	});
+	// Route::get('/teacher/{id}', 'TeacherController@show');
+	// Route::get('/s/teacher/{id}', 'TeacherController@api_show');
 
-	Route::get('/teachers/index', 'TeacherController@index');
-	Route::get('/teacher/{id}', 'TeacherController@show');
+	Route::get('/teacher/add', 'TeacherController@shownewteacher');
+	Route::get('/s/teacher/add', 'TeacherController@api_shownewteacher');
 
 	// student
-	Route::get('/students', function(){
-		return view('pages.student.index');
-	});
+	Route::get('/student', 'StudentController@index');
+	Route::get('/s/student', 'StudentController@api_index');
 
-
-	Route::get('/students/index', 'StudentController@index');
 	Route::get('/student/{id}', 'StudentController@show');
 
 	// class
-	Route::get('/classes', function(){
-		return view('pages.classes.index');
-	});
-	Route::get('/classes/index', 'ClassesController@index');
+	Route::get('/classes', 'ClassesController@index');
+	Route::get('/s/classes', 'ClassesController@api_index');
+
+	Route::get('/classes/add', 'ClassesController@shownewclassesview');
+	Route::get('/s/classes/add', 'ClassesController@api_shownewclassesview');
+
 	Route::get('/classes/{id}', 'ClassesController@show');
-	Route::get('/classes/add', 'ClassesController@addclassesview');
+	
 
 	// section
-	Route::get('/sections', function(){
-		return view('pages.section.index');
-	});
+	
+	Route::get('/section', 'SectionController@index');
+	Route::get('/s/section', 'SectionController@api_index');
 
-	Route::get('/sections/index', 'SectionController@index');
+	Route::get('/section/add', 'SectionController@shownewsection');
+	Route::get('/s/section/add', 'SectionController@api_shownewsection');
+
 	Route::get('/section/{id}', 'SectionController@show');
 
 	// admin
-	Route::get('/admin', function(){
-		return view('pages.admin.index');
-	});
-
-	Route::get('/admin/index', 'AdminController@index');
+	Route::get('/admin', 'AdminController@index');
+	Route::get('s/admin', 'AdminController@api_index');
 
 	// user
+	Route::get('/userinfo', 'UserController@getuserinfo');
 	Route::get('/users', 'UserController@index');
 	Route::get('/user/add', 'UserController@adduserview');
 	Route::get('/user/edit/{id}', 'UserController@edit');
@@ -77,12 +77,23 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/logout', 'UserController@logout');
 
 	//admissions
-	Route::get('/admissions', function(){
+	/*Route::get('/admissions', function(){
 		return view('pages.admission.index');
-	});
+	});*/
+
+	Route::get('/admission', 'AdmissionController@index');
+	Route::get('/s/admission', 'AdmissionController@api_index');
+
 	
-	Route::get('/admissions/index', 'AdmissionController@index');
+	// Route::get('/admissions/index', 'AdmissionController@index');
+
 	Route::get('/admission/new', 'AdmissionController@showadmissionview');
+	Route::get('/s/admission/new', 'AdmissionController@api_showadmissionview');
+
+
 	Route::get('/admission/{id}', 'AdmissionController@show');
+	Route::get('/s/admission/{id}', 'AdmissionController@api_show');
+
+
 	
 });

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\School;
 use App\Classes;
+use App\Section;
 use App\Admission;
 use App\Student;
 
@@ -18,7 +19,7 @@ class AdmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
         $user_school_id = Auth::user()->school_id;
 
@@ -31,10 +32,14 @@ class AdmissionController extends Controller
             })
             ->get();
 
-        return view('pages.admission.admissions')->with(['admissions'=>$admissions]);
+        return view('pages.admission.admissions')->with(['admissions'=>$admissions, 'fullpage' => $fullpage, 'page'=>'index']);
     }
 
-    public function showadmissionview(){
+    public function api_index(){
+        return $this->index(false);
+    }
+
+    public function showadmissionview($fullpage = true){
 
         $user_school_id = Auth::user()->school_id;
 
@@ -47,8 +52,13 @@ class AdmissionController extends Controller
                 return $query->where('school_id', $user_school_id);
             })->get();
 
-        return view('pages.admission.add')->with(['schools'=>$schools, 'classes'=>$classes]);
+        return view('pages.admission.add')->with(['schools'=>$schools, 'classes'=>$classes, 'fullpage' => $fullpage, 'page'=>'add']);
     }
+
+    public function api_showadmissionview(){
+        return $this->showadmissionview(false);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -105,17 +115,6 @@ class AdmissionController extends Controller
             'description' => $request->description,
         ]);
 
-        // create admission
-        // $admission = Admission::create([
-        //     'admissionnumber' => $request->admissionnumber,
-        //     'student_id' => $student->id,
-        //     'school_id' => $request->school_id,
-        //     'classes_id' => $request->classes_id,
-        //     'status' => $request->status,
-        //     'notes' => $request->notes,
-        //     'description' => $request->description,
-        // ]);
-
         return response()->json(['message'=>'Student has been enrolled','data'=>$request]);
     }
 
@@ -136,25 +135,26 @@ class AdmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $fullpage = true)
     {
         $user_school_id = Auth::user()->school_id;
 
-        // $schools = School::all();
-
-        
-
         $admission = DB::table('admissions')
-            ->select('admissions.*','admissions.date', 'students.studentnumber', 'students.firstname', 'students.lastname', 'schools.name as school_name', 'classes.*', 'classes.name as class_name')
+            ->select('admissions.*','admissions.date', 'students.*', 'schools.name as school_name', 'classes.*', 'classes.name as class_name')
             ->leftJoin('students', 'students.id', '=', 'admissions.student_id')
             ->leftJoin('schools', 'schools.id', '=', 'admissions.school_id')
             ->leftJoin('classes', 'classes.school_id', '=', 'schools.id')
             ->where('admissions.id','=', $id)
             ->get();
 
-            $classes = Classes::where('school_id', '=', $admission[0]->school_id);
+            $classes = Classes::where('school_id', $admission[0]->school_id)->get();
+            $sections = Section::where('classes_id', $admission[0]->classes_id)->get();
 
-            return view('pages.admission.admission')->with(['admission'=>$admission, 'classes'=>$classes]);
+            return view('pages.admission.admission')->with(['admission'=>$admission, 'classes'=>$classes, 'sections'=>$sections, 'fullpage' => $fullpage]);
+    }
+
+    public function api_show($id){
+        return $this->show($id, false);
     }
 
     public function searchAdmissionData($admissionnumber, $userschoolid){

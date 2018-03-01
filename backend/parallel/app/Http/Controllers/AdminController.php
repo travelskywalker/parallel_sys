@@ -11,9 +11,13 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
-        return view('pages.admin.admin');
+        return view('pages.admin.admin')->with(['fullpage'=>$fullpage, 'page'=>'index']);
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     /**

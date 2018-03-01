@@ -12,10 +12,14 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
         $students = Student::all();
-        return view("pages.student.students")->with(['students'=>$students]);
+        return view("pages.student.students")->with(['students'=>$students,'fullpage'=>$fullpage, 'page'=>'index']);
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     /**

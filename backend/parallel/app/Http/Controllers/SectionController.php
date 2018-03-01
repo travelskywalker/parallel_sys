@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class SectionController extends Controller
 {
+
+    private $fullpage = true;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
         $user_school_id = Auth::user()->school_id;
 
@@ -35,7 +37,11 @@ class SectionController extends Controller
             })
             ->get();
 
-        return view('pages.section.sections')->with('sections', $sections);
+        return view('pages.section.sections')->with(['sections'=>$sections, 'fullpage'=>$fullpage, 'page'=>'index']);
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     /**
@@ -46,6 +52,12 @@ class SectionController extends Controller
     public function create()
     {
         //
+    }
+    public function shownewsection($fullpage = true){
+        return view('pages.section.new')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+    }
+    public function api_shownewsection(){
+        return $this->shownewsection(false);
     }
 
     /**

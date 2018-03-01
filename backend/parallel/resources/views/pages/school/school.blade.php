@@ -1,4 +1,6 @@
-
+@if($fullpage)
+	@include('pages.school.index')
+@else
 	<table class="bordered highlight">
 		<thead>
 		  <tr>
@@ -29,3 +31,4 @@
 			@endforeach
 		</tbody>
 	</table>
+@endif

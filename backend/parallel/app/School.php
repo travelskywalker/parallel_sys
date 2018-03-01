@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class School extends Model
 {
-    //
+    protected $fillable = ['name', 'title1', 'title2', 'admin', 'email', 'phonenumber', 'mobilenumber','logo', 'address', 'city', 'notes', 'description', 'status'];
 
     public function classes(){
         return $this->hasMany('App\Classes');

@@ -1,4 +1,6 @@
-
+@if($fullpage)
+	@include('pages.teacher.index')
+@else
 	<div class="card">
 		<div class="card-image waves-effect waves-block waves-light">
 		  <img class="activator" src="{{$teacher->image}}">
@@ -50,3 +52,4 @@
 		  <p>Here is some more information about this product that is only revealed once clicked on.</p>
 		</div>
 	</div>
+@endif

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\School;
+use App\User;
 use App\Classes;
 use App\Http\Resources\School as SchoolResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\UploadController;
 
 class SchoolController extends Controller
 {
@@ -16,16 +19,20 @@ class SchoolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
         // return SchoolResource::collection(School::all());
         if(Auth::user()->access_id != 0){
             $school_id = Auth::user()->school_id;
-            return $this->show($school_id);
+            return $this->show($school_id)->with(['fullpage'=>$fullpage, 'page'=>'index']);
         }else{
             $schools = School::orderby('name', 'asc')->get();
-            return view('pages.school.school')->with('schools', $schools);
+            return view('pages.school.school')->with(['schools'=>$schools, 'fullpage'=>$fullpage, 'page'=>'index']);
         }
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     public function all(){
@@ -37,9 +44,31 @@ class SchoolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        // validate data
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'admin' => 'required',
+            'email' => 'required|email',
+            'phonenumber' => 'required',
+            'address' => 'required'
+        ]);
+
+        // create school data
+        $school = School::create($request->all());
+
+        if($request->logo != null){
+            $logo = app(\App\Http\Controllers\UploadController::class)->imageUpload('files/'.$school->id.'/images/logo/',$request->logo);
+
+            $school->update(['logo'=> $logo]);
+        };
+
+        // create school admin
+        $adminUser = app(\App\Http\Controllers\UserController::class)->createSchoolAdmin($school);
+
+        return response()->json(['message'=>'School has been added','data'=>$school]);
     }
 
     /**
@@ -77,6 +106,14 @@ class SchoolController extends Controller
 
         return view('pages.school.details')->with('school', $data);
 
+    }
+
+    public function shownewschool($fullpage = true){
+        return view('pages.school.add')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+    }
+
+    public function api_shownewschool(){
+        return $this->shownewschool(false);
     }
 
     public function showclasses(School $school, $id)

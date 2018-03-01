@@ -1,4 +1,4 @@
-Add User
+
 <div class="row error-container">
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>

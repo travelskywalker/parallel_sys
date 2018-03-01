@@ -18,7 +18,7 @@ class ClassesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage=true)
     {
         $user_school_id = Auth::user()->school_id;
 
@@ -31,7 +31,11 @@ class ClassesController extends Controller
             })
             ->get();
 
-        return view('pages.classes.classes')->with('classes', $classes);
+        return view('pages.classes.classes')->with(['classes'=>$classes, 'fullpage'=>$fullpage, 'page'=>'index']);
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     /**
@@ -70,9 +74,12 @@ class ClassesController extends Controller
         return view('pages.classes.class')->with(['class'=>$class, 'school'=>$school]);
     }
 
-    public function addclassesview(){
-        return "ok";
-        return view('pages.classes.add')->with();
+    public function shownewclassesview($fullpage = true){
+        return view('pages.classes.add')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+    }
+
+    public function api_shownewclassesview(){
+        return $this->shownewclassesview(false);
     }
 
     /**

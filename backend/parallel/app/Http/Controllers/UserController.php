@@ -12,6 +12,28 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function getuserinfo(){
+
+        $school_id = Auth::user()->school_id;
+        $user_id = Auth::user()->id;
+
+        $user = DB::table('users')
+        ->select('users.*','accesses.name as access_name', 'schools.name as school_name', 'schools.logo')
+        // ->select('users.*')
+        ->leftJoin('accesses', 'accesses.id', '=', 'users.access_id')
+        ->leftJoin('schools', 'schools.id', '=', 'users.school_id')
+        ->where('users.id','=', Auth::user()->id)
+        /*->when(Auth::user()->access_id >= 1, function(query) use ($school_id){
+            return $query->where('schools.id', $school_id)
+        })*/
+        ->get();
+
+
+        return response()->json(['data'=>$user]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -90,6 +112,18 @@ class UserController extends Controller
         }
     }
 
+    public function createSchoolAdmin($school){
+        $user = User::create([
+            'name' => $school->admin,
+            'email' => $school->email,
+            'password' =>bcrypt('parallel123'),
+            'school_id' =>$school->id,
+            'access_id' => 1
+        ]);
+
+        return $user;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -142,8 +176,8 @@ class UserController extends Controller
 
         $user_school_id = Auth::user()->school_id;
 
-        $accessData = Access::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
-                        return $query->where('accesses.id', '>=', $user_school_id);
+        $accessData = Access::when(Auth::user()->access_id != 0, function ($query) use ($user) {
+                        return $query->where('accesses.id', '>=', $user->access_id);
                     })->get();
 
         $schoolData = School::when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
