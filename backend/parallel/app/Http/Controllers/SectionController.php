@@ -6,6 +6,7 @@ use App\Section;
 use App\Classes;
 use App\Teacher;
 use App\Student;
+use App\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -49,12 +50,58 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'classes_id' => 'required',
+            'name' => 'required',
+            'timefrom' => 'required',
+            'timeto' => 'required',
+        ]);
+
+        // var_dump($request->timefrom);
+
+
+        // substr_replace("Hello world","earth",6);
+
+        // var_dump($request->timefrom);
+
+        // return false;
+
+        $request->merge(array('timefrom' => date("H:i", strtotime($request->timefrom) ) ) );
+        $request->merge(array('timeto' => date("H:i", strtotime($request->timeto) ) ) );
+
+
+        // $request->timefrom = \Carbon\Carbon::parse($request->timefrom);
+        // $request->timeto = \Carbon\Carbon::parse($request->timeto);
+
+
+
+        $section = Section::create($request->all());
+
+        return response()->json(['data'=>$section, 'message'=>'Section has been added']);
     }
     public function shownewsection($fullpage = true){
-        return view('pages.section.new')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+
+        $user_school_id = Auth::user()->school_id;
+
+        $schools = DB::table('schools')
+            ->when(Auth::user()->access_id != 0, function($query) use ($user_school_id){
+                return $query->where('schools.id', $user_school_id);
+            })
+        ->get();
+
+        if(School::find($user_school_id)){
+            $teachers = School::find($user_school_id)->teachers;
+            $classes = School::find($user_school_id)->classes;
+        }else{
+            $teachers = [];
+            $classes = [];
+        }
+
+
+
+        return view('pages.section.add')->with(['schools'=>$schools, 'classes'=>$classes, 'teachers'=>$teachers, 'fullpage'=>$fullpage, 'page'=>'add']);
     }
     public function api_shownewsection(){
         return $this->shownewsection(false);

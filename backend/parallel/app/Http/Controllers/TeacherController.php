@@ -39,9 +39,25 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // validate data
+        $validatedData = $request->validate([
+            'firstname' => 'required',
+            'middlename' => 'required',
+            'lastname' => 'required',
+        ]);
+
+        // create school data
+        $teacher = Teacher::create($request->all());
+
+        if($request->image != null){
+            $image = app(\App\Http\Controllers\UploadController::class)->imageUpload('files/'.$request->school_id.'/images/teacher/'.$teacher->id.'/',$request->image);
+
+            $teacher->update(['image'=> $image]);
+        };
+
+        return response()->json(['data'=>$teacher, 'message'=>'Teacher has been added']);
     }
 
     /**
@@ -77,7 +93,17 @@ class TeacherController extends Controller
     }
 
     public function shownewteacher($fullpage=true){
-        return view('pages.teacher.add')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+
+        $user_school_id = Auth::user()->school_id;
+        $schools = DB::table('schools')
+            ->select('schools.*')
+            ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('schools.id', $user_school_id);
+            })
+            ->get();
+
+
+        return view('pages.teacher.add')->with(['fullpage'=>$fullpage, 'page'=>'add', 'schools'=>$schools]);
     }
 
     public function api_shownewteacher(){

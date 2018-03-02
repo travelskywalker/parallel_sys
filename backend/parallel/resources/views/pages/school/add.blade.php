@@ -1,11 +1,11 @@
 @if($fullpage)
 	@include('pages.school.index')
 @else
-	<h5 class="center">Add School</h5>
-	<div class="row error-container">
-		<div class="col s12 error-message"></div>
-		<div class="col s12 error-data"></div>
-	</div>
+<h5 class="left">Add School</h5>
+<div class="row error-container">
+	<div class="col s12 error-message"></div>
+	<div class="col s12 error-data"></div>
+</div>
 
 
 <form id="add_logo_form" style="display: none">

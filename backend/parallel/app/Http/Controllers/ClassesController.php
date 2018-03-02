@@ -43,9 +43,17 @@ class ClassesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'school_id' =>'required',
+            'name' => 'required',
+        ]);
+
+        // create school data
+        $class = Classes::create($request->all());
+
+        return response()->json(['data'=>$class, 'message'=>'Class has been added']);
     }
 
     /**
@@ -75,7 +83,23 @@ class ClassesController extends Controller
     }
 
     public function shownewclassesview($fullpage = true){
-        return view('pages.classes.add')->with(['fullpage'=>$fullpage, 'page'=>'add']);
+
+        $user_school_id = Auth::user()->school_id;
+        
+        $schools = DB::table('schools')
+            ->select('schools.*')
+            ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('schools.id', $user_school_id);
+            })
+            ->get();
+
+            if(School::find($user_school_id)){
+                $teachers = School::find($user_school_id)->teachers;
+            }else{
+                $teachers = [];
+            }
+
+        return view('pages.classes.add')->with(['schools'=>$schools, 'teachers'=>$teachers, 'fullpage'=>$fullpage, 'page'=>'add']);
     }
 
     public function api_shownewclassesview(){

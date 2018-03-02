@@ -21,15 +21,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/school/list', 'SchoolController@index');
 Route::post('/school/new', 'SchoolController@create');
 Route::get('/school/{school_id}/classes', 'SchoolController@getclasses');
+Route::get('/school/{school_id}/teachers', 'SchoolController@getteachers');
 // teacher
+Route::post('/teacher/new', 'TeacherController@create');
 
 // student
 Route::get('/student/{studentnumber}/{school_id}', 'UserController@getstudentbystudentnumber');
 
 // class
+Route::post('/class/new', 'ClassesController@create');
 Route::get('/class/{class_id}/sections', 'ClassesController@getsections');
 
 // section
+Route::post('/section/new', 'SectionController@create');
 Route::get('/section/{id}', 'SectionController@findData');
 
 // user

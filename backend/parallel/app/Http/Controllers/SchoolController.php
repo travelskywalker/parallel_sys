@@ -127,6 +127,12 @@ class SchoolController extends Controller
 
         return response()->json(['data'=>$classes]);
     }
+
+    public function getteachers($school_id){
+        $teachers = School::find($school_id)->teachers;
+
+        return response()->json(['data'=>$teachers]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

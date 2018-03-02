@@ -6,15 +6,7 @@ function init(){
 	
 	$(".button-collapse").sideNav();
 
-	$('.datepicker').pickadate({
-	    selectMonths: true, // Creates a dropdown to control month
-	    selectYears: 100, // Creates a dropdown of 15 years to control year,
-	    today: 'Today',
-	    clear: 'Clear',
-	    close: 'Ok',
-	    closeOnSelect: true, // Close upon selecting a date,
-	    format: 'mmm dd, yyyy'
-	  });
+	
 
 
 	$('#admission_number').focusout(function(){
@@ -65,7 +57,6 @@ function init(){
 		var url ='/api/section/'+$(this).val();
 		sendAPI('GET', url).then(function(response){
 			var data = response.data[0];
-
 
 			$('.section-teacher').html(data.firstname+ ' ' +data.lastname);
 			$('.section-time').html(timeFormat(data.timefrom)+ ' - ' +timeFormat(data.timeto));
