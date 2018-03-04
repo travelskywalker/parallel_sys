@@ -19,7 +19,7 @@
 
 			@foreach ($schools as $school)
 			<tr class="data-row" onclick="showDetails('school',{{$school->id}})">
-			<td><img src="{{$school->logo}}" width="40" height="40"></td>
+			<td><div class="square image-thumbmark small" style="background: url('/{{$school->logo}}');"></div></td>
 		    <td>{{$school->name}}</td>
 		    <td>{{$school->admin}}</td>
 		    <td>{{$school->address}}</td>

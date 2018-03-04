@@ -61,18 +61,23 @@
 		          <div class="card">
 		          	<div class="card-content">
 		          		<div class="row">
-		          			<div class="col s6">
-						  		<div class="input-field col ">
-						          <input id="admission_student_id" name="student_id" type="text" class="validate" value="{{$admission[0]->studentnumber}}">
-						          <label for="admission_student_id">Student Number</label>
-								</div>
-						  	</div>
-						  	<div class="col s6">
-						  		<div class="input-field col ">
-						          <input id="admission_date" name="admission_date" type="text" class="datepicker" value="{{$admission[0]->date}}">
-						          <label for="admission_date">Date</label>
-								</div>
-						  	</div>
+		          			<div class="row s12">
+			          			<div class="col s4">
+			          				<div class="add-image-container" id="image_container" activates="image_upload" style="background:url(/'{{$admission[0]->image}}')"></div>
+			          			</div>
+			          			<div class="col s6">
+			          				<div class="input-field col ">
+							          <input id="admission_date" name="admission_date" type="text" class="datepicker" value="{{$admission[0]->date}}">
+							          <label for="admission_date">Date</label>
+									</div>
+			          			</div>
+			          			<div class="col s6">
+							  		<div class="input-field col ">
+							          <input id="admission_student_id" name="student_id" type="text" class="validate" value="{{$admission[0]->studentnumber}}">
+							          <label for="admission_student_id">Student Number</label>
+									</div>
+							  	</div>
+							  </div>
 		          		</div>
 		          		<div class="row">
 		          			<div class="col s4">

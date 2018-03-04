@@ -49,11 +49,20 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student, $id)
+    public function show($id, $fullpage = true)
     {
         $student = Student::find($id);
 
-        return view('pages.student.student')->with(['student'=>$student]);
+        return view('pages.student.student')
+                ->with([
+                    'student'=>$student,
+                    'fullpage'=>$fullpage,
+                    'page'=>'details'
+                ]);
+    }
+
+    public function api_show($id){
+        return $this->show($id, false);
     }
 
     /**

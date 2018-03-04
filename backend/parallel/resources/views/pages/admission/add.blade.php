@@ -6,7 +6,13 @@
 		<div class="col s12 error-message"></div>
 		<div class="col s12 error-data"></div>
 	</div>
+
+	<form id="add_image_form" style="display: none">
+	<input id="image_upload" container="image_container" form-input="image" name="image" fdata="add_image_form" api="/temp/imageupload" type="file" accept="image/*">
+	</form>
+
 	<form id="admission_form">
+		<input type="hidden" name="image" id="image">
 		<div class="row s12">
 		    <div class="col s12">
 		      <div class="card ">
@@ -64,16 +70,19 @@
 		          <div class="card">
 		          	<div class="card-content">
 		          		<div class="row">
+		          			<div class="col s4">
+		          				<div class="add-image-container" id="image_container" activates="image_upload">please upload square photo to ensure image compatibility</div>
+		          			</div>
 		          			<div class="col s6">
-						  		<div class="input-field col ">
-						          <input id="admission_student_id" name="student_id" type="text" class="validate">
-						          <label for="admission_student_id">Student Number</label>
-								</div>
-						  	</div>
-						  	<div class="col s6">
-						  		<div class="input-field col ">
+		          				<div class="input-field col ">
 						          <input id="admission_date" name="admission_date" type="text" class="datepicker">
 						          <label for="admission_date">Date</label>
+								</div>
+		          			</div>
+		          			<div class="col s6">
+						  		<div class="input-field col ">
+						          <input id="admission_student_id" name="student_id" type="number" class="validate">
+						          <label for="admission_student_id">Student Number</label>
 								</div>
 						  	</div>
 		          		</div>

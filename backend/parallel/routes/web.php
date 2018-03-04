@@ -22,10 +22,14 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/school', 'SchoolController@index');
 	Route::get('/s/school', 'SchoolController@api_index');
 
+
 	Route::get('/school/add', 'SchoolController@shownewschool');
 	Route::get('/s/school/add', 'SchoolController@api_shownewschool');
 
 	Route::get('/school/{id}', 'SchoolController@show');
+	Route::get('/s/school/{id}', 'SchoolController@api_show');
+
+
 	Route::get('/school/classes/{id}', 'SchoolController@showclasses');
 
 	// teacher
@@ -43,6 +47,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/s/student', 'StudentController@api_index');
 
 	Route::get('/student/{id}', 'StudentController@show');
+	Route::get('/s/student/{id}', 'StudentController@api_show');
 
 	// class
 	Route::get('/classes', 'ClassesController@index');

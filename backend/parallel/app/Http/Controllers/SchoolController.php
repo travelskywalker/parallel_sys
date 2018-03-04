@@ -88,7 +88,7 @@ class SchoolController extends Controller
      * @param  \App\School  $school
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $fullpage = true)
     {
         $schooldetails = School::find($id);
 
@@ -100,12 +100,17 @@ class SchoolController extends Controller
             [
                 'school' => $schooldetails,
                 'classes'=> $classes,
-                'teachers' => $teachers
+                'teachers' => $teachers,
+                'fullpage' => $fullpage,
+                'page' => 'details',
             ]
         );
 
-        return view('pages.school.details')->with('school', $data);
+        // return view('pages.school.details')->with(['school'=>$data, 'fullpage'=>$fullpage]);
+    }
 
+    public function api_show($id){
+        return $this->show($id, false);
     }
 
     public function shownewschool($fullpage = true){

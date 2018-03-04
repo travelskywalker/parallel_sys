@@ -30,21 +30,16 @@ function getJsTimestamp(time){
 
 function image_upload_init(){
 	$('#image_upload').change(function(){
+
 		var fileInput = $(this);
-		console.log(fileInput);
 		var url = '/api'+fileInput.attr('api');
 		var form = fileInput.attr('fdata');
-
 		var container = fileInput.attr('container');
 		var formInput = fileInput.attr('form-input');
 
 		var data = new FormData($('#'+form)[0]);
 
-		console.log(data);
-
 		uploadTempImg(url, data).then(function(response){
-
-			console.log(response);
 
 			// append to container
 			$('#'+container).css({'background':'url("/'+response+'")'});
@@ -52,7 +47,6 @@ function image_upload_init(){
 			$('#'+formInput).val(response);
 
 		}).catch(function(error){
-			console.log('img upload', error);
 			errorMsg('something went wrong');
 		});
 

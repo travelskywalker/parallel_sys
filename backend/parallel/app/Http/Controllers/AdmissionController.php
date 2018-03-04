@@ -88,8 +88,15 @@ class AdmissionController extends Controller
         $request->birthdate = \Carbon\Carbon::parse($request->birthdate);
         $request->admission_date = \Carbon\Carbon::parse($request->admission_date);
 
+        // $request->merge(array('birthdate' => date("Y-m-d H:i:s", strtotime($request->birthdate) ) ) );
+
+        // $request->merge(array('admission_date' => date("Y-m-d H:i:s", strtotime($request->admission_date) ) ) );
+
+        // var_dump($request->birthdate);
+
+
         // create student
-        $student = Student::create([
+        /*$student = Student::create([
             'studentnumber' => $request->student_id,
             'firstname' => $request->first_name,
             'middlename' => $request->middle_name,
@@ -113,7 +120,15 @@ class AdmissionController extends Controller
             'status' => 'enrolled',
             'notes' => $request->notes,
             'description' => $request->description,
-        ]);
+        ]);*/
+
+        var_dump($request->school_id);
+
+        if($request->image != null){
+            $image = app(\App\Http\Controllers\UploadController::class)->imageUpload('files/'.$request->school_id.'/images/student/'+$student->id+'/',$request->image);
+
+            $student->update(['image'=> $image]);
+        };
 
         return response()->json(['message'=>'Student has been enrolled','data'=>$request]);
     }
@@ -150,7 +165,7 @@ class AdmissionController extends Controller
             $classes = Classes::where('school_id', $admission[0]->school_id)->get();
             $sections = Section::where('classes_id', $admission[0]->classes_id)->get();
 
-            return view('pages.admission.admission')->with(['admission'=>$admission, 'classes'=>$classes, 'sections'=>$sections, 'fullpage' => $fullpage]);
+            return view('pages.admission.admission')->with(['admission'=>$admission, 'classes'=>$classes, 'sections'=>$sections, 'fullpage' => $fullpage, 'page'=>'details']);
     }
 
     public function api_show($id){

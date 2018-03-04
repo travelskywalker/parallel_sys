@@ -6,6 +6,8 @@ function init(){
 	
 	$(".button-collapse").sideNav();
 
+	image_upload_init();
+
 	
 
 

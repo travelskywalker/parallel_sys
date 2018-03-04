@@ -89,6 +89,16 @@ nav .brand-logo.right{
 	margin: 0px;
 }
 
+.square.small {
+    width: 40px;
+    height: 40px;
+}
+
+.image-thumbmark{
+	background-size: cover !important;
+	background-position: center !important;
+}
+
 
 
 

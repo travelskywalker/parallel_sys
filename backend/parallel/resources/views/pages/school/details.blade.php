@@ -3,10 +3,10 @@
 @else
 	<div class="card">
 		<div class="card-image waves-effect waves-block waves-light">
-		  <img class="activator" src="{{$school->logo}}">
+		  <img class="activator" src="/{{$school->logo}}">
 		</div>
 		<div class="card-content">
-		  <span class="card-title activator grey-text text-darken-4">{{$school->name}}<i class="material-icons right">more_vert</i></span>
+		  <span class="card-title activator grey-text text-darken-4">{{$school->name}}<i class="material-icons right"></i></span>
 		  @if($school->title1) <p>{{$school->title1}}</p> @endif
 		  @if($school->title2) <p>{{$school->title2}}</p> @endif
 
@@ -23,7 +23,11 @@
 		</div>
 
 		<div class="card-reveal">
-		  <span class="card-title grey-text text-darken-4">{{$school->name}}<i class="material-icons right">close</i></span>
+		  <span class="card-title grey-text text-darken-4 vertical-center">
+		  	<div class="small image-thumbmark square" style="background: url('/{{$school->logo}}'); float: left"></div>
+		  	{{$school->name}}
+		  	<i class="material-icons right">close</i>
+		  </span>
 		  
 
 		  <div class="row">
