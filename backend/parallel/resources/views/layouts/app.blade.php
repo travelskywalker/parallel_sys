@@ -68,9 +68,8 @@
         <!-- content -->
         <div class="container">
             <div class="row">
-                @if(Auth::check())
+                <!-- @if(Auth::check())
                     <div class="col s3">
-                        <!-- Grey navigation panel -->
                         @yield('sidenav')
                      </div>
                 @endif
@@ -82,7 +81,7 @@
                               <div class="col s12" id="page_crumbs">
                               </div>
                             </div>
-                    </div>
+                    </div> -->
                     <div class="row s12">
                         @yield('content')
                     </div>

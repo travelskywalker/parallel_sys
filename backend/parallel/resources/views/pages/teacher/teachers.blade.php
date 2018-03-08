@@ -1,30 +1,36 @@
 @if($fullpage)
 	@include('pages.teacher.index')
 @else
-	<table class="bordered highlight">
-		<thead>
-		  <tr>
-		  	  <th>ID Number</th>
-		      <th>Name</th>
-		      @if(Auth::user()->access_id == 0)<th>School</th> @endif
-		      <th>Notes</th>
-		      <th>Description</th>
-		      <th>Status</th>
-		  </tr>
-		</thead>
+<h5>Teachers</h5>
+	@if(count($teachers) > 0)
+		<table class="bordered highlight">
+			<thead>
+			  <tr>
+			  	  <th>ID Number</th>
+			      <th>Name</th>
+			      @if(Auth::user()->access_id == 0)<th>School</th> @endif
+			      <th>Notes</th>
+			      <th>Description</th>
+			      <th>Status</th>
+			  </tr>
+			</thead>
 
-		<tbody>
+			<tbody>
 
-			@foreach ($teachers as $teacher)
-			<tr class="data-row" onclick="showDetails('teacher', {{$teacher->id}})">
-			<td>{{$teacher->teachernumber}}</td>
-		    <td><img src="{{$teacher->image}}" width="40" height="40"> {{$teacher->firstname}} {{$teacher->lastname}}</td>
-		    <td>{{$teacher->school_name}}</td>
-		    <td>{{$teacher->notes}}</td>
-		    <td>{{$teacher->description}}</td>
-		    <td>{{$teacher->status}}</td>
-		  </tr>
-			@endforeach
-		</tbody>
-	</table>
+				@foreach ($teachers as $teacher)
+				<tr class="data-row" onclick="showDetails('teacher', {{$teacher->id}})">
+				<td>{{$teacher->teachernumber}}</td>
+			    <td><img src="{{$teacher->image}}" width="40" height="40"> {{$teacher->firstname}} {{$teacher->lastname}}</td>
+			    <td>{{$teacher->school_name}}</td>
+			    <td>{{$teacher->notes}}</td>
+			    <td>{{$teacher->description}}</td>
+			    <td>{{$teacher->status}}</td>
+			  </tr>
+				@endforeach
+			</tbody>
+		</table>
+	@else
+		No record in the database. Click <a href="/teacher/add">here</a> to add.
+	@endif
+
 @endif

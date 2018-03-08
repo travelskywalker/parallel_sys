@@ -1,7 +1,7 @@
 @if($fullpage)
 	@include('pages.admission.index')
 @else
-	<h5 class="center">Admission Form</h5>
+	<h5>New Admission</h5>
 	<div class="row error-container">
 		<div class="col s12 error-message"></div>
 		<div class="col s12 error-data"></div>
@@ -107,26 +107,38 @@
 		          			</div>
 		          		</div>
 		          		<div class="row">
-		          			<div class="col s4">
+		          			<div class="col s3">
 						         <div class="input-field col">
 								    <select id="admission_gender" name="gender">
-								      		<option value="" disabled selected>gender</option>
+								      		<option value="" disabled selected>select gender</option>
 								      		<option value="male">Male</option>
 								      		<option value="female">Female</option>
 								    </select>
 								    <label>Gender</label>
 								</div>
 		          			</div>
-		          			<div class="col s4">
+		          			<div class="col s3">
 		          				<div class="input-field col ">
 						          <input id="admission_birthdate" name="birthdate" type="text" class="datepicker birthdate">
 						          <label for="admission_birthdate">Birthdate</label>
 								</div>
 		          			</div>
-		          			<div class="col s4">
+		          			<div class="col s3">
 		          				<div class="input-field col ">
 						          <input id="admission_birthplace" name="birthplace" type="text" class="validate birthdate">
 						          <label for="admission_birthplace">Birth place</label>
+								</div>
+		          			</div>
+		          			<div class="col s3">
+		          				<div class="input-field col ">
+							         <select id="admission_bloodtype" name="bloodtype">
+								      		<option value="" disabled selected>select blood type</option>
+								      		<option value="O">O</option>
+								      		<option value="A">A</option>
+								      		<option value="B">B</option>
+								      		<option value="AB">AB</option>
+								    </select>
+								    <label>Blood Type</label>
 								</div>
 		          			</div>
 		          		</div>

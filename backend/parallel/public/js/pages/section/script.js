@@ -6,8 +6,8 @@ function init(){
 		var teacher_url ='/api/school/'+$(this).val()+'/teachers';
 		var classes_url ='/api/school/'+$(this).val()+'/classes';
 
-		populate_select('teacher_id', teacher_url);
-		populate_select('classes_id',classes_url);
+		populate_select('teacher_id', teacher_url, 'teachers');
+		populate_select('classes_id',classes_url, 'class');
 
 	});
 

@@ -83,35 +83,36 @@ class AdmissionController extends Controller
             'mothers_name' => 'required',
             'guardian_name' => 'required',
             'emergencycontactnumber' => 'required',
+            'address' => 'required',
+            'gender' => 'required',
         ]);
 
         $request->birthdate = \Carbon\Carbon::parse($request->birthdate);
         $request->admission_date = \Carbon\Carbon::parse($request->admission_date);
 
-        // $request->merge(array('birthdate' => date("Y-m-d H:i:s", strtotime($request->birthdate) ) ) );
-
-        // $request->merge(array('admission_date' => date("Y-m-d H:i:s", strtotime($request->admission_date) ) ) );
-
-        // var_dump($request->birthdate);
-
-
         // create student
-        /*$student = Student::create([
+        $student = Student::create([
             'studentnumber' => $request->student_id,
             'firstname' => $request->first_name,
             'middlename' => $request->middle_name,
             'lastname' => $request->last_name,
             'gender' => $request->gender,
             'birthdate' => $request->birthdate,
+            'birthplace' => $request->birthplace,
+            'bloodtype' => $request->bloodtype,
             'address' =>$request->address,
             'fathersname' => $request->fathers_name,
             'mothersname' => $request->mothers_name,
             'guardianname' => $request->guardian_name,
+            'guardianrelationship' => $request->guardianrelationship,
             'emergencycontactnumber' => $request->emergencycontactnumber,
             'nationality' => $request->nationality,
             'religion' => $request->religion,
-            'status' => 'Enrolled',
-        ])->admission()->create([
+            'status' => 'Admitted',
+        ]);
+
+        $admission = Admission::create([
+            'student_id' => $student->id,
             'admissionnumber' => $request->admission_id,
             'date' => $request->admission_date,
             'school_id' => $request->school_id,
@@ -120,14 +121,22 @@ class AdmissionController extends Controller
             'status' => 'enrolled',
             'notes' => $request->notes,
             'description' => $request->description,
-        ]);*/
+        ]);
 
-        var_dump($request->school_id);
+        // $student->save(['nationality', 'momomomomomomomo']);
 
         if($request->image != null){
-            $image = app(\App\Http\Controllers\UploadController::class)->imageUpload('files/'.$request->school_id.'/images/student/'+$student->id+'/',$request->image);
+            $image = app(\App\Http\Controllers\UploadController::class)->imageUpload('files/'.$request->school_id.'/images/student/'.$student->id.'/',$request->image);
 
             $student->update(['image'=> $image]);
+            // $student->save(['nationality', 'tatatatatatata']);
+            // $student->save(['image'=> 'testingimage to']);
+
+            // $s = Student::find($student->id);
+            // $s->image = $image;
+            // $s->save();
+
+            // var_dump($image);
         };
 
         return response()->json(['message'=>'Student has been enrolled','data'=>$request]);
@@ -174,7 +183,9 @@ class AdmissionController extends Controller
 
     public function searchAdmissionData($admissionnumber, $userschoolid){
 
-        $admission = Admission::where('admissionnumber','=', $admissionnumber, 'and', 'schoolid', '=', $userschoolid)->get();
+        $admission = Admission::where('admissionnumber','=', $admissionnumber)
+                                ->where( 'school_id', '=', $userschoolid)
+                                ->get();
 
         return response()->json(['data'=>$admission]);
     }

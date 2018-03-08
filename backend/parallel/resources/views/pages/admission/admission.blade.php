@@ -63,7 +63,7 @@
 		          		<div class="row">
 		          			<div class="row s12">
 			          			<div class="col s4">
-			          				<div class="add-image-container" id="image_container" activates="image_upload" style="background:url(/'{{$admission[0]->image}}')"></div>
+			          				<div class="add-image-container" id="image_container" activates="image_upload" style="background:url('/{{$admission[0]->image}}')"></div>
 			          			</div>
 			          			<div class="col s6">
 			          				<div class="input-field col ">

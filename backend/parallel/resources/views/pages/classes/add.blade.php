@@ -1,7 +1,7 @@
 @if($fullpage)
 	@include('pages.classes.index')
 @else
-<h5 class="left">New Teacher</h5>
+<h5 class="left">Add Class</h5>
 <div class="row error-container">
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>

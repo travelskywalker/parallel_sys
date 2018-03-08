@@ -1,4 +1,5 @@
 
+<h5>Users</h5>
 	<table class="bordered highlight">
 		<thead>
 		  <tr>
@@ -21,9 +22,3 @@
 			@endforeach
 		</tbody>
 	</table>
-
-
-
-
-
-@include('pageCheck')

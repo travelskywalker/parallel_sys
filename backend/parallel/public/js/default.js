@@ -78,8 +78,8 @@ function getUserInfo(){
 	});
 }
 
-function errorMsg(){
-	showToast('<i class="material-icons">error</i> '+language.somethingwentwrong);
+function errorMsg(msg = language.somethingwentwrong){
+	showToast('<i class="material-icons">error</i> '+msg);
 	return '<div class="error"><i class="material-icons">error</i> '+language.somethingwentwrongrefresh+'</div>';
 }
 
@@ -203,7 +203,7 @@ function clock(id){
     return true;
 }
 
-function populate_select(element, url){
+function populate_select(element, url, type){
 
 	sendAPI('GET', url).then(function(response){
 		// remove section content
@@ -218,7 +218,7 @@ function populate_select(element, url){
 				else $('#'+element).append('<option value="'+val.id+'">'+val.firstname+' '+val.lastname+'</option>');
 			});
 		}else{
-			$('#'+element).append('<option value="" disabled>no class available</option>');
+			$('#'+element).append('<option value="" disabled>no '+type+' available</option>');
 		}
 
 		$('select').material_select();

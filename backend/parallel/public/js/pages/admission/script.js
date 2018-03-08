@@ -60,8 +60,9 @@ function init(){
 		sendAPI('GET', url).then(function(response){
 			var data = response.data[0];
 
-			$('.section-teacher').html(data.firstname+ ' ' +data.lastname);
+			if(data.firstname != null || data.lastname != null) $('.section-teacher').html(data.firstname+ ' ' +data.lastname);
 			$('.section-time').html(timeFormat(data.timefrom)+ ' - ' +timeFormat(data.timeto));
+
 			$('.new-admission-section-details').show();
 		});
 
@@ -73,9 +74,7 @@ function init(){
 		sendAPI('GET', url).then(function(response){
 
 			// remove section content
-			$('#admission_section_id option').remove();
-			$('#admission_section_id').append('<option value="" disabled selected>select section</option>');
-			$('.new-admission-section-details').hide();
+			clearSectionData();
 
 			// populate
 			$.each(response.data, function(key,val){
@@ -95,17 +94,39 @@ function init(){
 		var url ='/api/school/'+id+'/classes';
 
 		sendAPI('GET', url).then(function(response){
+
+			if(response.data.length == 0){
+
+				$('.error-message').html('No Class available. Please create class and section first to make admission');
+
+				errorMsg('No Class available. Please create class and section first to make admission');
+
+				$('select#admission_class_id').addClass('invalid');
+				$('#admission_class_id option').remove();
+				$('#admission_class_id').append('<option value="" disabled selected>no class available</option>');
+			}else{
 			
-			// remove class content
-			$('#admission_class_id option').remove();
-			$('#admission_class_id').append('<option value="" disabled selected>select class</option>');
+				// remove class content
+				clearClassData();
+				clearSectionData();
 
-			// populate
-			$.each(response.data, function(key,val){
-				$('#admission_class_id').append('<option value="'+val.id+'">'+val.name+'</option>');
-			});
+				if($('select#admission_class_id').hasClass('invalid')){
+					$('select#admission_class_id').removeClass('invalid');
+				}
 
-			$('select').material_select();
+				// populate
+				$.each(response.data, function(key,val){
+					$('#admission_class_id').append('<option value="'+val.id+'">'+val.name+'</option>');
+				});
+
+				$('select').material_select();
+			}
+
+			//clear admission number if existing
+			$('#admission_number').val('');
+			if($('#admission_number').hasClass('invalid')){
+				$('#admission_number').removeClass('invalid');
+			}
 
 
 		}).catch(function(error){
@@ -121,6 +142,22 @@ function init(){
 		}
 	});
 }
+
+function clearSectionData(){
+	$('#admission_section_id option').remove();
+	$('#admission_section_id').append('<option value="" disabled selected>select section</option>');
+	$('.new-admission-section-details').hide();
+}
+
+function clearClassData(){
+	$('#admission_class_id option').remove();
+	$('#admission_class_id').append('<option value="" disabled selected>select class</option>');
+}
+
+function clearError(){
+	$('.error-message').html('');
+}
+
 
 
 // for tuts

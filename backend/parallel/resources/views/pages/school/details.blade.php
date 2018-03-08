@@ -1,6 +1,32 @@
 @if($fullpage)
 	@include('pages.school.index')
 @else
+<div class="card">
+	<div class="card-content">
+		<div class="row s12">
+			<div class="col s2">
+				<div class="school-logo" style="background:url('/{{$school->logo}}')"></div>
+			</div>
+			<div class="col s10">
+				<h5>{{$school->name}}</h5>
+				@if($school->title1) <p>{{$school->title1}}</p> @endif
+		  		@if($school->title2) <p>{{$school->title2}}</p> @endif
+			</div>
+		</div>
+		<div class="row s12">
+			<div class="col s12">
+				<p><b>School Administrator:</b> {{$school->admin}}</p>
+				  <p><b>Address:</b> {{$school->address}}</p>
+				  <p><b>Phone Number:</b> {{$school->phonenumber}}</p>
+				  <p><b>Mobile Number:</b> {{$school->mobilenumber}}</p>
+				  <p><b>Email:</b> {{$school->email}}</p>
+				  <p><b>Status:</b> {{$school->status}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 	<div class="card">
 		<div class="card-image waves-effect waves-block waves-light">
 		  <img class="activator" src="/{{$school->logo}}">
