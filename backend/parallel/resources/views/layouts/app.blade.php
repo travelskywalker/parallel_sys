@@ -17,14 +17,34 @@
     <link href="{{ asset('css/icons.set.css') }}" rel="stylesheet">
     <link href="{{ asset('css/materialize.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/appStyles.css') }}" rel="stylesheet">
+    @if(Auth::check()) <link href="/css/themes/{{Auth::user()->theme}}/style.css" rel="stylesheet"> @endif
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
-<body>
-    <div id="app">
+<body @if(Auth::check()) class="{{Auth::user()->theme}}" @endif>
+
+  <div class="search-page-modal">
+    <div class="search-container hoverable">
+      <div class="row s12">
+
+        <div class="col s12">
+          <div class="input-field col s12">
+                <input id="search" name="search" type="text" class="validate" onkeyup="search()">
+                <label for="search">Search</label>
+          </div>
+        </div>
+        <div class="col s12">
+            <div class="result-container">
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div id="app" class="@if(!Auth::check()) login @endif">
         <!-- <main class="py-4">
             @yield('content')
         </main> -->
 
+        @if(Auth::check())
         <!-- navbar -->
         <div class="navbar-fixed" id="nav_main">
 
@@ -35,17 +55,18 @@
                   @if(Auth::check())
                   <ul id="nav-mobile" class="left">
                     <li><a href="/admin">Admin</a></li>
-                    <li><a href="/school">Schools</a></li>
-                    <li><a href="/student">Students</a></li>
-                    <li><a href="/teacher">Teachers</a></li>
+                    <li><a href="/school">School</a></li>
+                    <li><a href="/student">Student</a></li>
+                    <li><a href="/teacher">Teacher</a></li>
                     <li><a href="/classes">Class</a></li>
-                    <li><a href="/section">Sections</a></li>
-                    <li><a href="/admission">Admissions</a></li>
+                    <li><a href="/section">Section</a></li>
+                    <li><a href="/admission">Admission</a></li>
+                    <li><a onclick="opensearch()">search</a></li>
                   </ul>
                   @endif
                 </div>
-                @if(Auth::check())
-                    <div class="nav-content grey">
+                
+                    <div class="nav-content">
                       <ul class="tabs tabs-transparent sub-nav">
                         @yield('sub-bar')
 
@@ -67,13 +88,49 @@
                       </div>
                     </div>
                     
-                @endif
+                
             </nav>
         </div>
         <ul id="slide-out" class="side-nav">
-          <li><a onclick="openChangePasswordView()">Change Password</a></li>
-          <li><a class="logout">Logout</a></li>
+          <li>
+            <ul class="collapsible sidenav" data-collapsible="accordion">
+              <li>
+                <div class="row center">
+                  <h5>Settings</h5>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">account_circle</i>Account</div>
+                <div class="collapsible-body">
+                  <ul>
+                    <!-- onclick="openChangePasswordView()" -->
+                    <li><a class="valign-wrapper" onclick="systemSettingsEdit('changePassword')"><i class="material-icons">lock</i> Change Password</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">settings</i>System</div>
+                <div class="collapsible-body">
+                    <ul>
+                          <li ><a class="valign-wrapper" onclick="systemSettingsEdit('theme')"><i class="material-icons">color_lens</i> Theme</a></li>
+
+                          <!-- <li ><a class="valign-wrapper"><i class="material-icons">add</i> Add User</a></li> -->
+                      </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header" onclick="systemSettingsEdit('widget')"><i class="material-icons">apps</i>Widget</div>
+              </li>
+              <li>
+                <div class="collapsible-header logout"><i class="material-icons">power_settings_new</i>Logout</div>
+              </li>
+            </ul>
+          </li>
+          
         </ul>
+        @endif
+
+        
 
         <!-- content -->
         <div class="container">

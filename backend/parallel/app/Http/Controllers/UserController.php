@@ -29,7 +29,6 @@ class UserController extends Controller
         })*/
         ->get();
 
-
         return response()->json(['data'=>$user]);
     }
 
@@ -242,13 +241,23 @@ class UserController extends Controller
 
     }
 
+    public function savetheme(Request $request){
+        $user = User::find(Auth::user()->id);
+
+        $user->update(['theme'=>$request->theme]);
+
+        return response()->json(['message'=>'Changing theme success']);
+    }
+
     public function resetpassword($id){
-        if(Auth::user()->access_id == 0){
+        if(Auth::user()->access_id <= 1){
             $user = User::find($id);
             $pass = bcrypt('parallel123');
             $user->update(['password'=> $pass]);
 
             return response()->json(['message'=>'password reset successful']);
+        }else{
+            return response()->json(['message'=>'Reset password failed. You do not have access rights to reset password']);
         }
     }
 

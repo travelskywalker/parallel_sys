@@ -1,6 +1,5 @@
-function loader(){
-	var loader = '<div style="width: 100%" class="center-align">';
-		loader += '<div class="preloader-wrapper small active">';
+function loader(message='default'){
+	var loader = '<div class="preloader-wrapper small active">';
 		loader += '<div class="spinner-layer spinner-green-only">';
 		loader += '<div class="circle-clipper left">';
 		loader += '<div class="circle"></div>';
@@ -11,43 +10,28 @@ function loader(){
 		loader += '</div>';
 		loader += '</div>';
 		loader += '</div>';
-		loader += '</div>';
+
+		if(message!='default') loader += '<div> '+message+'</div>';
+
 	return loader;
 }
 
-function changePasswordModal(){
-	var modal ='<div id="change_password_modal" class="modal modal-fixed-footer">';
-		modal += '<div class="modal-content">';
-		modal +=  '<h4>Change Password</h4>';
-		modal +=  '<div class="modal-content-container">';
-		modal +=  '</div>';
-		modal +=  '</div>';
-		modal +=   '<div class="modal-footer">';
-		modal +=  '<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>';
-		modal +=  '<a class="modal-action waves-effect waves-green btn-flat" onclick="changePassword();">Save</a>';
-		modal +=  '</div>';
-		modal +=  '</div>';
+function systemModal(){
+
+	var modal ='<div class="modal modal-fixed-footer system-modal">';
+	modal += '<div class="modal-content">';
+	modal +=  '<h4></h4>';
+	modal +=  '<div class="modal-content-container">';
+	modal +=  '</div>';
+	modal +=  '</div>';
+	modal +=   '<div class="modal-footer">';
+	modal +=  '<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>';
+	modal +=  '<a class="modal-action waves-effect waves-green btn-flat save-btn">Save</a>';
+	modal +=  '</div>';
+	modal +=  '</div>';
 
 	return modal;
 }
-
-function openChangePasswordView(){
-
-		$('body').append(changePasswordModal());
-		$('#change_password_modal').modal({
-			ready: function(){
-				sendAPI('GET','/user/changepasswordform').then(function(response){
-					$('#change_password_modal .modal-content-container').html(response);
-				}).catch(function(error){
-					errorMsg();
-				});
-			},
-			complete: function() { 
-				$('#change_password_modal').remove();
-			}
-		}).modal('open');
-}
-
 
 function openEditModal(url){
 	$('#edit_modal').modal('open');
@@ -55,7 +39,6 @@ function openEditModal(url){
 	$('.modal-content-container').html(loader());
 
 	sendAPI('GET', url).then(function(response){
-
 		$('.modal-content-container').html(response);
 		formInit();
 		init();
@@ -64,6 +47,63 @@ function openEditModal(url){
 		$('#edit_modal').modal('close');
 		errorMsg(lang.somethingwentwrong);
 	});
+}
+
+function openSystemEditModal(type){
+
+	$('body').append(systemModal());
+
+		$('.system-modal').modal({
+			ready: function(){
+				var attr = systemEditAttribute(type);
+
+				$('.system-modal').attr('id','system_'+type);
+				$('.system-modal h4').html(attr.title);
+				$('.system-modal .save-btn').attr('onclick','systemSettingsSave(\''+type+'\')');
+
+				sendAPI('GET',attr.formUrl).then(function(response){
+
+					// append to content
+					$('.system-modal .modal-content-container').append(response);
+
+					// initialize form
+					formInit();
+
+				}).catch(function(error){
+					errorMsg();
+				});
+			},
+			complete: function(){
+				$('.system-modal').remove();
+			}
+		}).modal('open');
+}
+
+function systemEditAttribute(type){
+
+	var attribute = {};
+
+	if(type == 'theme'){
+		attribute = {
+			'title':'Choose Theme',
+			'formUrl':'/user/system/themeeditform',
+			'saveUrl':'/user/system/savetheme'
+		}
+	}else if(type == 'changePassword'){
+		attribute = {
+			'title':'Change Password',
+			'formUrl':'/user/changepasswordform',
+			'saveUrl':'/user/changepassword'
+		}
+	}else if(type == 'widget'){
+		attribute = {
+			'title':'Edit widget',
+			'formUrl':'/user/system/widgeteditform',
+			'saveUrl':'/user/system/savewidget'
+		}
+	}
+
+	return attribute;
 }
 
 function compareTime(from,to,type="later"){

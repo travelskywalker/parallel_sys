@@ -1,0 +1,28 @@
+nav{
+	background-color: #1a8824e0;
+}
+
+.nav-content{
+	background-color: #795548;
+}
+
+.system-tab{
+	color: white;
+}
+
+.tabs.tabs-transparent .indicator{
+	background: yellow;
+}
+
+.tabs.tabs-transparent .tab a:hover, .tabs.tabs-transparent .tab a.active{
+	color: white;
+}
+
+.tabs.tabs-transparent .tab a, .tabs.tabs-transparent .tab.disabled a, .tabs.tabs-transparent .tab.disabled a:hover{
+	color: white;
+}
+
+table.highlight>tbody>tr:hover {
+    background-color: #389540;
+    color: #fff;
+}

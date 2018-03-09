@@ -36,9 +36,9 @@
 					<div class="card-content">
 						<span class="card-title">Students: {{count($students)}}</span>
 
-						@if(count($students) <=0)
-							<div>no teacher in record yet.</div>
-							click <a href="/teacher/add">here</a> to add
+						@if(count($students)<=0)
+							<div>no student in record yet.</div>
+							click <a href="/admission/new">here</a> for new admission.
 						@else
 
 							<ul class="collection staggered">
@@ -50,7 +50,7 @@
 							@if(count($students) > 3)
 								<a class="right" href="/student">see all</a>
 							@else
-								<a href="/admission/new" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="new admission"><i class="material-icons">add</i></a>
+								<a href="/admission/new" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-tooltip="new admission"><i class="material-icons">add</i></a>
 							@endif
 						@endif
 					</div>
@@ -66,7 +66,7 @@
 
 						@if(count($classes) <=0)
 							<div>no class in record yet.</div>
-							click <a href="/class/add">here</a> to add
+							click <a href="/classes/add">here</a> to add
 						@else
 
 							<ul class="collection staggered">
@@ -78,7 +78,7 @@
 							@if(count($classes) > 3)
 							<a class="right" href="/school/classes/{{$school->id}}">see all</a>
 							@else
-								<a href="/classes/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add class"><i class="material-icons">add</i></a>
+								<a href="/classes/add" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-tooltip="add class"><i class="material-icons">add</i></a>
 							@endif
 						@endif
 					</div>
@@ -102,9 +102,9 @@
 							</ul>
 
 							@if(count($sections) > 3)
-								<a class="right" href="/school/classes/{{$school->id}}">see all</a>
+								<a class="right" href="/school/section/{{$school->id}}">see all</a>
 							@else
-								<a href="/section/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add section"><i class="material-icons">add</i></a>
+								<a href="/section/add" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-tooltip="add section"><i class="material-icons">add</i></a>
 							@endif
 						@endif
 					</div>
@@ -128,9 +128,9 @@
 							</ul>
 
 							@if(count($teachers) > 3)
-								<a class="right" href="/school/classes/{{$school->id}}">see all</a>
+								<a class="right" href="/teacher">see all</a>
 							@else
-								<a href="/teacher/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add teacher"><i class="material-icons">add</i></a>
+								<a href="/teacher/add" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-tooltip="add teacher"><i class="material-icons">add</i></a>
 							@endif
 						@endif
 					</div>

@@ -21,7 +21,7 @@
 				<tr class="data-row" onclick="showDetails('teacher', {{$teacher->id}})">
 				<td>{{$teacher->teachernumber}}</td>
 			    <td><img src="{{$teacher->image}}" width="40" height="40"> {{$teacher->firstname}} {{$teacher->lastname}}</td>
-			    <td>{{$teacher->school_name}}</td>
+			    @if(Auth::user()->access_id == 0)<td>{{$teacher->school_name}}</td>@endif
 			    <td>{{$teacher->notes}}</td>
 			    <td>{{$teacher->description}}</td>
 			    <td>{{$teacher->status}}</td>

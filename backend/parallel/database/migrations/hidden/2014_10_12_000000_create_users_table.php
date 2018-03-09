@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('access_id')->nullable();
             $table->integer('tutorial')->default(0);
             $table->integer('changepassword')->default(0);
+            $table->string('theme')->default('default');
             $table->rememberToken();
             $table->timestamps();
         });

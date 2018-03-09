@@ -83,10 +83,19 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/user/resetpassword/{id}', 'UserController@resetpassword');
 
 	Route::get('/user/changepasswordform',function(){
-		return view('pages.user.changepassword');
+		return view('pages.user.system.changepassword');
+	});
+
+	Route::get('/user/system/themeeditform', function(){
+		return view('pages.user.system.changetheme');
+	});
+
+	Route::get('/user/system/widgeteditform', function(){
+		return view('pages.user.system.changewidget');
 	});
 
 	Route::post('/user/changepassword', 'UserController@changepassword');
+	Route::post('/user/system/savetheme', 'UserController@savetheme');
 
 	Route::get('/user/add', 'UserController@adduserview');
 	Route::get('/user/edit/{id}', 'UserController@edit');
@@ -110,6 +119,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get('/admission/{id}', 'AdmissionController@show');
 	Route::get('/s/admission/{id}', 'AdmissionController@api_show');
+
+	// system
+	Route::get('/system/search/{key}', 'SystemController@showresult');
 
 
 	

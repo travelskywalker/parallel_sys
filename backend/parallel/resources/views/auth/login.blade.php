@@ -4,9 +4,11 @@
 <div class="row">
   <div class="col s6 offset-s3">
     <div class="card-panel">
-        <h5 class="center">
-            Login to your Parallel Account
-        </h5>
+        <div class="row">
+            <h5 class="center">
+                Login to your Parallel Account
+            </h5>
+        </div>
       <form method="POST" action="{{ route('login') }}">
                         @csrf
 

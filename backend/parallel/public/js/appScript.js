@@ -5,7 +5,7 @@ function loadIndex(){
 
 function loadContent(url,pagefrom){
 	// append loader
-	app.main_content.html(loader());
+	app.main_content.html('<div style="width: 100%" class="center-align">'+loader()+'</div>');
 
 	sendAPI('GET', url).then(function(response){
 
@@ -41,25 +41,57 @@ function loadContent(url,pagefrom){
 	});
 }
 
-function changePassword(){
-	var data = $('#change_password_form').serialize();
+function opensearch(){
+	$('.search-page-modal').fadeIn('fast');
+	$('#search').focus();
+}
 
-	console.log()
+function search(){
 
-	sendAPI('POST','/user/changepassword', data).then(function(response){
+	var key=$('#search').val();
 
-		showToast(response.message);
-		$('#change_password_modal').modal('close');
+	sendAPI('GET', '/system/search/'+key).then(function(response){
+
+		console.log(response);
+		$('.result-container').html(response);
 
 	}).catch(function(error){
+
+		errorMsg();
+		
+	});
+}
+
+function systemSettingsSave(type){
+	var attr = systemEditAttribute(type);
+	var data = $('#system_'+type+' form').serialize();
+
+	sendAPI('POST',attr.saveUrl, data).then(function(response){
+
+		showToast(response.message);
+		$('.system-modal').modal('close');
+
+		// refresh page if changing theme
+		if(type == 'theme') window.location.reload();
+
+	}).catch(function(error){
+
 		var err = JSON.parse(error.responseText);
 
 		$('.error-message').html(err.message);
 		$('.error-data').html('');
+
 		$.each(err.errors, function(key, val){
+
 			$('.error-data').append('<li>'+val+'</li>');
+
 		});
+
 	});
+}
+
+function systemSettingsEdit(type){
+	openSystemEditModal(type);
 }
 
 function saveEdit(){
@@ -154,7 +186,15 @@ $(document).ready(function(){
 		// $('.button-collapse').sideNav('show');
 	});
 
-	$('.logout').click(function(){window.location.href = '/logout'; });
+	$('.logout').click(function(){
+
+		$(this).html(loader(' logging out... please wait'));
+
+		setTimeout(function(){
+			window.location.href = '/logout';
+		}, 1000);
+		 
+	});
 
 	$('.sidenav .nav').click(function(){
 		var url = $(this).attr('url');
