@@ -15,6 +15,40 @@ function loader(){
 	return loader;
 }
 
+function changePasswordModal(){
+	var modal ='<div id="change_password_modal" class="modal modal-fixed-footer">';
+		modal += '<div class="modal-content">';
+		modal +=  '<h4>Change Password</h4>';
+		modal +=  '<div class="modal-content-container">';
+		modal +=  '</div>';
+		modal +=  '</div>';
+		modal +=   '<div class="modal-footer">';
+		modal +=  '<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>';
+		modal +=  '<a class="modal-action waves-effect waves-green btn-flat" onclick="changePassword();">Save</a>';
+		modal +=  '</div>';
+		modal +=  '</div>';
+
+	return modal;
+}
+
+function openChangePasswordView(){
+
+		$('body').append(changePasswordModal());
+		$('#change_password_modal').modal({
+			ready: function(){
+				sendAPI('GET','/user/changepasswordform').then(function(response){
+					$('#change_password_modal .modal-content-container').html(response);
+				}).catch(function(error){
+					errorMsg();
+				});
+			},
+			complete: function() { 
+				$('#change_password_modal').remove();
+			}
+		}).modal('open');
+}
+
+
 function openEditModal(url){
 	$('#edit_modal').modal('open');
 
@@ -24,6 +58,7 @@ function openEditModal(url){
 
 		$('.modal-content-container').html(response);
 		formInit();
+		init();
 	})
 	.catch(function(error){
 		$('#edit_modal').modal('close');
@@ -116,7 +151,6 @@ function setPageUrl(url){
 
 	if(url.indexOf('/s/') >= 0) url = url.slice(2);
 	
-	if(url == '/users') return false;
 	
 	window.history.pushState('', '', url);
 }
@@ -218,7 +252,6 @@ function clock(id){
     	document.getElementById(id).innerHTML = result;
 	    setTimeout('clock("'+id+'");','1000');
 	}
-    return true;
 }
 
 function populate_select(element, url, type){
@@ -241,6 +274,27 @@ function populate_select(element, url, type){
 
 		$('select').material_select();
 	});
+}
+
+function resetPassword(id){
+
+	var result = confirm('Do you really want to reset the password?');
+
+	if(result){
+		sendAPI('GET', '/user/resetpassword/'+id).then(function(response){
+			// show success message
+			showToast(response.message);
+
+			return false;
+			setTimeout(function(){
+				window.location.reload();
+			}, 1000);
+
+		}).catch(function(error){
+			errorMsg();
+		});
+	}
+	
 }
 
 function navClick(e){
@@ -285,11 +339,12 @@ function sendForm(form, url, successpage){
 
 			showToast(response.message);
 
-			setTimeout(function(){
-				// window.location.href="/users";
-				window.location.href= '/'+successpage;
-			}, 1000);
-			
+			if(successpage){
+				setTimeout(function(){
+					// window.location.href="/users";
+					window.location.href= '/'+successpage;
+				}, 1000);
+			}
 		})
 		.catch(function(error){
 			
@@ -343,3 +398,21 @@ function uploadTempImg(url, data){
 		    })
 		);
 }
+
+function tutorial(){
+	if(!isPasswordChanged() && !isPasswordChangeShow()){
+		$('.change-password').tapTarget('open');
+		localStorage.setItem('passwordChangeShow', true);
+	}
+}
+
+function isPasswordChangeShow(){
+	return localStorage.getItem('passwordChangeShow');
+}
+
+function isPasswordChanged(){
+	var changepasswordstate = $('meta[name="default-password"]').attr('content');
+	if(changepasswordstate == 1) return true;
+	else return false;
+}
+

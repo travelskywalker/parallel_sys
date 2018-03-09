@@ -11,6 +11,8 @@ function loadContent(url,pagefrom){
 
 		app.main_content.html(response);
 
+		Materialize.fadeInImage('#app-main');
+
 		// page title
 		updatePageTitle(url);
 
@@ -39,19 +41,37 @@ function loadContent(url,pagefrom){
 	});
 }
 
+function changePassword(){
+	var data = $('#change_password_form').serialize();
+
+	console.log()
+
+	sendAPI('POST','/user/changepassword', data).then(function(response){
+
+		showToast(response.message);
+		$('#change_password_modal').modal('close');
+
+	}).catch(function(error){
+		var err = JSON.parse(error.responseText);
+
+		$('.error-message').html(err.message);
+		$('.error-data').html('');
+		$.each(err.errors, function(key, val){
+			$('.error-data').append('<li>'+val+'</li>');
+		});
+	});
+}
+
 function saveEdit(){
 	var form = $('#edit_modal').find('form').attr('id');
 	var url = $('#'+form).attr('sendform-url');
 
-	console.log(form);
-
-	sendForm(form, url, 'admin').then(function(response){
+	sendForm(form, url, 'users').then(function(response){
 		console.log(response);
 	})
 	.catch(function(error){
 		errorMsg(lang.somethingwentwrong);
 	});
-
 }
 
 function updatePageTitle(url){
@@ -145,6 +165,7 @@ $(document).ready(function(){
 
 
 });
+
 
 function admissionFormSubmit(form, url){
 

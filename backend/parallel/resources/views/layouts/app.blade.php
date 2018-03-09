@@ -7,6 +7,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if(Auth::check())
+    <meta name="default-password" content="{{Auth::user()->changepassword}}">
+    @endif
 
     <title>Parallel</title>
 
@@ -49,20 +52,27 @@
                         <li class="right system-tab right-align">
                             <div id="system-clock">
                             </div>
-                            <div>
-                                logged in as <span id="system_user" class="button-collapse" data-activates="slide-out"></span> | <span class="logout">logout</span>
+                            <div >
+                                logged in as <span id="system_user" class="button-collapse" data-activates="slide-out"></span>
                             </div>
                         </li>
                       </ul>
                     </div>
 
+                    <!-- change password tutorial structure -->
+                    <div class="tap-target change-password" data-activates="system_user">
+                      <div class="tap-target-content">
+                        <h5>Change Password</h5>
+                        <p>Our system detected that you are using a default password. Please click here to change your password</p>
+                      </div>
+                    </div>
                     
                 @endif
             </nav>
         </div>
         <ul id="slide-out" class="side-nav">
-          <li><a href="#!">First Sidebar Link</a></li>
-          <li><a href="#!">Second Sidebar Link</a></li>
+          <li><a onclick="openChangePasswordView()">Change Password</a></li>
+          <li><a class="logout">Logout</a></li>
         </ul>
 
         <!-- content -->

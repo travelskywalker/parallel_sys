@@ -4,7 +4,7 @@
 <h5>Schools</h5>
 	@if(count($schools) > 0)
 
-		<table class="bordered highlight">
+		<table class="bordered highlight fade-in-table">
 			<thead>
 			  <tr>
 			  	  <th></th>

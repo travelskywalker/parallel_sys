@@ -33,29 +33,32 @@ class UserController extends Controller
         return response()->json(['data'=>$user]);
     }
 
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($fullpage = true)
     {
 
-        // $user_school_id = Auth::user()->school_id;
+        $user_school_id = Auth::user()->school_id;
         $users = DB::table('users')
             ->select('users.name', 'accesses.name as access_name', 'schools.name as school_name', 'users.id', 'users.email')
             ->leftJoin('accesses', 'users.access_id', '=', 'accesses.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
             ->orderBy('users.name', 'asc')
-            // ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
-            //     return $query->where('users.school_id', $user_school_id);
-            // })
+            ->when(Auth::user()->access_id != 0, function ($query) use ($user_school_id) {
+                return $query->where('users.school_id', $user_school_id);
+            })
             ->get();
 
 
         // $users = DB::table('users')->get();
-        return view('pages.user.users')->with(['users'=>$users]);
+        return view('pages.user.users')->with(['users'=>$users, 'fullpage'=>$fullpage, 'page'=>'users']);
+    }
+
+    public function api_index(){
+        return $this->index(false);
     }
 
     public function adduserview(){
@@ -106,7 +109,6 @@ class UserController extends Controller
         $request->merge(array('password' => bcrypt($request->password)));
 
         $user = new User($request->all());
-        
         if($user->save()){
          return response()->json(['message'=>'User has been added', 'user'=>$user]);
         }
@@ -221,7 +223,32 @@ class UserController extends Controller
         $request->merge(array('password' => bcrypt($request->password)));
         
         if($user->update($request->all())){
-         return response()->json(['message'=>'User has been update', 'user'=>$user]);
+         return response()->json(['message'=>'User has been updated', 'user'=>$user]);
+        }
+    }
+
+    public function changepassword(Request $request){
+
+        $validatedData = $request->validate([
+            'password' => 'required|min:6',
+            'retype-password' => 'required|same:password'
+        ]);
+
+        $user = User::find(Auth::user()->id);
+
+        $user->update(['password'=>bcrypt($request->password), 'changepassword'=>1]);
+
+        return response()->json(['message'=>'change password successful']);
+
+    }
+
+    public function resetpassword($id){
+        if(Auth::user()->access_id == 0){
+            $user = User::find($id);
+            $pass = bcrypt('parallel123');
+            $user->update(['password'=> $pass]);
+
+            return response()->json(['message'=>'password reset successful']);
         }
     }
 

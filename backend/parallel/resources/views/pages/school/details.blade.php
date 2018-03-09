@@ -9,10 +9,8 @@
 			</div>
 			<div>
 				<h5>  {{$school->name}}</h5>
-				<div>
 					@if($school->title1) <p>{{$school->title1}}</p> @endif
 			  		@if($school->title2) <p>{{$school->title2}}</p> @endif
-			  	</div>
 			</div>
 		</div>
 		<div class="row s12">

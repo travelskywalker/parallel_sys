@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-  <div class="col s12 ">
+  <div class="col s6 offset-s3">
     <div class="card-panel">
         <h5 class="center">
             Login to your Parallel Account
@@ -37,8 +37,6 @@
                                 @endif
                             </div>
                         </div>
-
-                       
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">

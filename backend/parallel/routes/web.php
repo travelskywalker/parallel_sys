@@ -12,10 +12,11 @@
 */
 
 Auth::routes();
-Route::group(['middleware' => ['auth']], function() {
-	Route::get('/', function () {
+Route::get('/', function () {
 	    return view('welcome');
 	});
+Route::group(['middleware' => ['auth']], function() {
+	
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	// school
@@ -77,7 +78,15 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/userinfo', 'UserController@getuserinfo');
 
 	Route::get('/users', 'UserController@index');
-	Route::get('/s/users', 'UserController@index');
+	Route::get('/s/users', 'UserController@api_index');
+
+	Route::get('/user/resetpassword/{id}', 'UserController@resetpassword');
+
+	Route::get('/user/changepasswordform',function(){
+		return view('pages.user.changepassword');
+	});
+
+	Route::post('/user/changepassword', 'UserController@changepassword');
 
 	Route::get('/user/add', 'UserController@adduserview');
 	Route::get('/user/edit/{id}', 'UserController@edit');

@@ -10,9 +10,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s8">
           <input id="email" name="email" type="email" class="validate" value="{{$user->email}}">
           <label for="email">Email</label>
+        </div>
+        <div class="input-field col s4">
+          <a class="waves-effect waves-light btn" onclick="resetPassword('{{$user->id}}')">reset password</a>
         </div>
   	</div>
   	<div class="row">
