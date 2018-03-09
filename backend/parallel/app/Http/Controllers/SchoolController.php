@@ -96,11 +96,23 @@ class SchoolController extends Controller
 
         $teachers = School::find($id)->teachers;
 
+        $sections = School::find($id)->sections;
+
+        $students = DB::table('students')
+                        ->select('students.*')
+                        
+                        ->leftJoin('admissions', 'admissions.student_id', '=', 'students.id')
+                        ->leftJoin('schools', 'schools.id', '=', 'admissions.school_id')
+                        ->where('schools.id', $id)
+                        ->get();
+
         return view('pages.school.details')->with(
             [
                 'school' => $schooldetails,
                 'classes'=> $classes,
                 'teachers' => $teachers,
+                'sections' => $sections,
+                'students' => $students,
                 'fullpage' => $fullpage,
                 'page' => 'details',
             ]

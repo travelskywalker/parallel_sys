@@ -15,4 +15,8 @@ class School extends Model
     public function teachers(){
     	return $this->hasMany('App\Teacher');
     }
+
+    public function sections(){
+    	return $this->hasMany('App\Section');
+    }
 }

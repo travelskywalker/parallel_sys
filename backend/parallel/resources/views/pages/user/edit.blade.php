@@ -2,8 +2,7 @@
 	<div class="col s12 error-message"></div>
 	<div class="col s12 error-data"></div>
 </div>
-<form id="edit_user_form">
-	<input type="hidden" name="password" value="{{$user->password}}">
+<form id="edit_user_form" sendform-url="/user/update/{{$user->id}}">
 	<div class="row">
     	<div class="input-field col s12">
           <input id="name" name="name" type="text" class="validate" value="{{$user->name}}">
@@ -36,10 +35,10 @@
 		    <label>School</label>
 		  </div>
   	</div>
-  	<div class="row">
+  	<!-- <div class="row">
   		<div class="col s4">
   			<a class="waves-effect waves-light btn" onclick="window.history.back();">Cancel</a>
   			<a class="waves-effect waves-light btn" onclick="updateDetails('/user/update/{{$user->id}}', 'edit_user_form' )">Save</a>
   		</div>
-  	</div>
+  	</div> -->
 </form>

@@ -39,6 +39,21 @@ function loadContent(url,pagefrom){
 	});
 }
 
+function saveEdit(){
+	var form = $('#edit_modal').find('form').attr('id');
+	var url = $('#'+form).attr('sendform-url');
+
+	console.log(form);
+
+	sendForm(form, url, 'admin').then(function(response){
+		console.log(response);
+	})
+	.catch(function(error){
+		errorMsg(lang.somethingwentwrong);
+	});
+
+}
+
 function updatePageTitle(url){
 	$('#page_title').html(getPageTitle(url));
 }
@@ -71,6 +86,8 @@ function tableInit(){
 function initialize(){
 	$('.modal').modal();
 	$('.slider').slider();
+	$('.materialboxed').materialbox();
+	$('.tooltipped').tooltip({delay: 50});
 	$(".button-collapse").sideNav({
 		edge: 'right'
 	});

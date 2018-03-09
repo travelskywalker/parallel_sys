@@ -15,6 +15,22 @@ function loader(){
 	return loader;
 }
 
+function openEditModal(url){
+	$('#edit_modal').modal('open');
+
+	$('.modal-content-container').html(loader());
+
+	sendAPI('GET', url).then(function(response){
+
+		$('.modal-content-container').html(response);
+		formInit();
+	})
+	.catch(function(error){
+		$('#edit_modal').modal('close');
+		errorMsg(lang.somethingwentwrong);
+	});
+}
+
 function compareTime(from,to,type="later"){
 	var fromtime = Date.parse('1988/01/06 '+from);
 	var totime = Date.parse('1988/01/06 '+to);
@@ -99,6 +115,8 @@ function getPageTitle(route){
 function setPageUrl(url){
 
 	if(url.indexOf('/s/') >= 0) url = url.slice(2);
+	
+	if(url == '/users') return false;
 	
 	window.history.pushState('', '', url);
 }

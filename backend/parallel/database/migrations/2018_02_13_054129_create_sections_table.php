@@ -21,6 +21,7 @@ class CreateSectionsTable extends Migration
             $table->integer('studentlimit')->nullable();
             $table->integer('teacher_id')->nullable();
             $table->integer('classes_id');
+            $table->integer('school_id');
             $table->string('room')->nullable();
 
             // desc

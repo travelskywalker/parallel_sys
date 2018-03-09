@@ -1,4 +1,4 @@
-.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user{
+.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user, .data-edit-btn{
 	cursor: pointer;
 }
 
@@ -98,6 +98,22 @@ nav .brand-logo.right{
 	background-size: cover !important;
 	background-position: center !important;
 }
+
+.detail-card{
+	min-height: 162px;
+}
+
+.modal-content-container {
+    margin-top: 30px;
+}
+
+#edit_modal h4{
+	position: fixed;
+    width: 100%;
+    background: #fafafa;
+    z-index: 1;
+}
+
 
 
 

@@ -8,9 +8,6 @@ function init(){
 
 	image_upload_init();
 
-	
-
-
 	$('#admission_number').focusout(function(){
 		var _self=this;
 

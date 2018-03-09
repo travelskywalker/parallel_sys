@@ -17,7 +17,7 @@
 		        	<div class="row">
 			        	<div class="col s12">
 		        			<div class="input-field col s12">
-							    <select id="school_id" name="">
+							    <select id="school_id" name="school_id">
 							      		@if(Auth::user()->access_id == 0)<option value="" disabled selected>select school</option>@endif
 							      		@foreach($schools as $school)
 							      			<option value="{{$school->id}}">{{$school->name}}</option>

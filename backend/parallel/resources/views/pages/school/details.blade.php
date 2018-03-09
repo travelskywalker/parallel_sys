@@ -1,122 +1,151 @@
 @if($fullpage)
 	@include('pages.school.index')
 @else
-<div class="card">
-	<div class="card-content">
+<!-- <div class="card">
+	<div class="card-content"> -->
 		<div class="row s12">
 			<div class="col s2">
-				<div class="school-logo" style="background:url('/{{$school->logo}}')"></div>
+				<img width="100" height="100" src="/{{$school->logo}}">
 			</div>
-			<div class="col s10">
-				<h5>{{$school->name}}</h5>
-				@if($school->title1) <p>{{$school->title1}}</p> @endif
-		  		@if($school->title2) <p>{{$school->title2}}</p> @endif
+			<div>
+				<h5>  {{$school->name}}</h5>
+				<div>
+					@if($school->title1) <p>{{$school->title1}}</p> @endif
+			  		@if($school->title2) <p>{{$school->title2}}</p> @endif
+			  	</div>
 			</div>
 		</div>
 		<div class="row s12">
 			<div class="col s12">
 				<p><b>School Administrator:</b> {{$school->admin}}</p>
+			</div>
+			<div class="col s4">
+				<p><b>Email:</b> {{$school->email}}</p>
+			</div>
+			<div class="col s4">
+				<p><b>Phone Number:</b> {{$school->phonenumber}}</p>
+			</div>
+			<div class="col s4">
+				<p><b>Mobile Number:</b> {{$school->mobilenumber}}</p>
+			</div>
+			<div class="col s12">
 				  <p><b>Address:</b> {{$school->address}}</p>
-				  <p><b>Phone Number:</b> {{$school->phonenumber}}</p>
-				  <p><b>Mobile Number:</b> {{$school->mobilenumber}}</p>
-				  <p><b>Email:</b> {{$school->email}}</p>
-				  <p><b>Status:</b> {{$school->status}}</p>
 			</div>
 		</div>
-	</div>
-</div>
+		<div class="row s12">
+			<div class="col s4">
+				<div class="detail-card card hoverable s12">
+					<div class="card-content">
+						<span class="card-title">Students: {{count($students)}}</span>
 
+						@if(count($students) <=0)
+							<div>no teacher in record yet.</div>
+							click <a href="/teacher/add">here</a> to add
+						@else
 
-	<div class="card">
-		<div class="card-image waves-effect waves-block waves-light">
-		  <img class="activator" src="/{{$school->logo}}">
-		</div>
-		<div class="card-content">
-		  <span class="card-title activator grey-text text-darken-4">{{$school->name}}<i class="material-icons right"></i></span>
-		  @if($school->title1) <p>{{$school->title1}}</p> @endif
-		  @if($school->title2) <p>{{$school->title2}}</p> @endif
-
-		  <p></p>
-
-		  <p><b>School Administrator:</b> {{$school->admin}}</p>
-		  <p><b>Address:</b> {{$school->address}}</p>
-		  <p><b>Phone Number:</b> {{$school->phonenumber}}</p>
-		  <p><b>Mobile Number:</b> {{$school->mobilenumber}}</p>
-		  <p><b>Email:</b> {{$school->email}}</p>
-		  <p><b>Status:</b> {{$school->status}}</p>
-
-		  
-		</div>
-
-		<div class="card-reveal">
-		  <span class="card-title grey-text text-darken-4 vertical-center">
-		  	<div class="small image-thumbmark square" style="background: url('/{{$school->logo}}'); float: left"></div>
-		  	{{$school->name}}
-		  	<i class="material-icons right">close</i>
-		  </span>
-		  
-
-		  <div class="row">
-		    <div class="col s12">
-		      <div class="card blue-grey darken-1">
-		        <div class="card-content white-text">
-		        	<span class="card-title">Available Classes</span>
-
-		        	@if(count($classes) <=0)
-						no class available for this school
-					@else
-		            	<table class="bordered">
-							<tbody>
-
-								@foreach ($classes as $class)
-								<tr class="data-row" onclick="showDetails('class',{{$class->id}})">
-							    <td>{{$class->name}}</td>
-							  </tr>
+							<ul class="collection staggered">
+								@foreach ($students->slice(0,3) as $student)
+								<li class="collection-item">{{$student->firstname}} {{$student->lastname}}</li>
 								@endforeach
-							</tbody>
-						</table>
+							</ul>
 
-						<a href="/school/classes/{{$school->id}}">see all</a>
-					@endif
-		        </div>
-		        
-		      </div>
-		    </div>
-		  </div>
+							@if(count($students) > 3)
+								<a class="right" href="/student">see all</a>
+							@else
+								<a href="/admission/new" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="new admission"><i class="material-icons">add</i></a>
+							@endif
+						@endif
+					</div>
 
-		  <div class="row">
-		    <div class="col s12">
-		      <div class="card blue-grey darken-1">
-		        <div class="card-content white-text">
-		        	<span class="card-title">List of Teachers</span>
 
-		        	@if(count($teachers) <=0)
-						no listed teachers in this school
-					@else
-		            	<table class="bordered">
-							<tbody>
-								@foreach ($teachers as $teacher)
+					
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="detail-card card hoverable s12 ">
+					<div class="card-content">
+						<span class="card-title">Classes : {{count($classes)}}</span>
 
-								<tr class="data-row" onclick="showDetails('teacher', {{$teacher->id}})">
-								<?php $name = $teacher->firstname." ".$teacher->lastname; ?>
-							    
-							    <td><img src="{{$teacher->image}}" width="40" height="40"> {{$name}}</td>
-							  </tr>
+						@if(count($classes) <=0)
+							<div>no class in record yet.</div>
+							click <a href="/class/add">here</a> to add
+						@else
+
+							<ul class="collection staggered">
+								@foreach ($classes->slice(0,3) as $class)
+								<li class="collection-item">{{$class->name}}</li>
 								@endforeach
-							</tbody>
-						</table>
+							</ul>
 
-						<a href="/teachers/school/id">see all</a>
-					@endif
-		        </div>
-		        
-		      </div>
-		    </div>
-		  </div>
-		  
-		  	
+							@if(count($classes) > 3)
+							<a class="right" href="/school/classes/{{$school->id}}">see all</a>
+							@else
+								<a href="/classes/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add class"><i class="material-icons">add</i></a>
+							@endif
+						@endif
+					</div>
+					
+				</div>
+			</div>
 
+			<div class="col s4">
+				<div class="detail-card card hoverable s12">
+					<div class="card-content">
+						<span class="card-title">Sections: {{count($sections)}}</span>
+						@if(count($sections) <=0)
+							<div>no section in record yet.</div>
+							click <a href="/section/add">here</a> to add
+						@else
+
+							<ul class="collection staggered">
+								@foreach ($sections->slice(0,3) as $section)
+								<li class="collection-item">{{$section->name}}</li>
+								@endforeach
+							</ul>
+
+							@if(count($sections) > 3)
+								<a class="right" href="/school/classes/{{$school->id}}">see all</a>
+							@else
+								<a href="/section/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add section"><i class="material-icons">add</i></a>
+							@endif
+						@endif
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="col s4">
+				<div class="detail-card card hoverable s12">
+					<div class="card-content">
+						<span class="card-title">Teachers: {{count($teachers)}}</span>
+
+						@if(count($teachers) <=0)
+							<div>no teacher in record yet.</div>
+							click <a href="/teacher/add">here</a> to add
+						@else
+			            	<ul class="collection staggered">
+								@foreach ($teachers->slice(0,3) as $teacher)
+								<li class="collection-item">{{$teacher->firstname}} {{$teacher->lastname}}</li>
+								@endforeach
+							</ul>
+
+							@if(count($teachers) > 3)
+								<a class="right" href="/school/classes/{{$school->id}}">see all</a>
+							@else
+								<a href="/teacher/add" class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-tooltip="add teacher"><i class="material-icons">add</i></a>
+							@endif
+						@endif
+					</div>
+					
+				</div>
+			</div>
+
+			
 		</div>
-	</div>
+<!-- 	</div>
+</div> -->
+
+
+	
 
 @endif
