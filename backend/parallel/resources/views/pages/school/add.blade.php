@@ -16,7 +16,7 @@
 	<form id="add_school_form">
 		<div class="row s12">
 		    <div class="col s12">
-		      <div class="card ">
+		      <div class="card hoverable">
 		        <div class="card-content">
 		        	<div class="add-image-container" id="logo_container" activates="image_upload">please upload square photo to ensure image compatibility</div>
 					<input type="hidden" name="logo" id="logo">

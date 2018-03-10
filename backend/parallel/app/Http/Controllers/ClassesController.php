@@ -73,13 +73,17 @@ class ClassesController extends Controller
      * @param  \App\Classes  $classes
      * @return \Illuminate\Http\Response
      */
-    public function show(Classes $classes, $id)
+    public function show($id, $fullpage = true)
     {
         $class = Classes::find($id);
 
         $school = School::find($class->school_id);
 
-        return view('pages.classes.class')->with(['class'=>$class, 'school'=>$school]);
+        return view('pages.classes.class')->with(['class'=>$class, 'school'=>$school, 'fullpage'=>$fullpage]);
+    }
+
+    public function api_show($id){
+        return $this->show($id, false);
     }
 
     public function shownewclassesview($fullpage = true){

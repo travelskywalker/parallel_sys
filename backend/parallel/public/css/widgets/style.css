@@ -1,0 +1,47 @@
+/*
+styles for clock widget
+*/
+
+#clock_widget h1{
+	letter-spacing: -8px;]
+	margin: 0;
+    line-height: 1;
+}
+
+#clock_widget span.second {
+    position: absolute;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    margin-top: 7px;
+    color: #9e9e9e;
+}
+
+#clock_widget span.minute {
+    font-weight: 100;
+}
+
+#clock_widget span.am-pm {
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+
+#clock_widget .card-content{
+	border-top: 4px solid black;
+}
+
+
+
+
+
+
+/*
+styles for search widget
+*/
+
+#search_widget .collection-item{
+	cursor:pointer;
+}
+
+#search_widget h5{
+	font-size: 1.4rem;
+}

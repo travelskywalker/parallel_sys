@@ -33,6 +33,10 @@ function systemModal(){
 	return modal;
 }
 
+function loadIndex(){
+	loadContent('/s'+app.path);
+}
+
 function openEditModal(url){
 	$('#edit_modal').modal('open');
 
@@ -47,6 +51,26 @@ function openEditModal(url){
 		$('#edit_modal').modal('close');
 		errorMsg(lang.somethingwentwrong);
 	});
+}
+
+function opensearch(){
+	// $('.search-page-modal').fadeIn('fast');
+	// $('#search').focus();
+
+	$('#search_modal').modal({
+		ready:function(){
+			$('#search').focus();
+		},
+		complete: function(){
+			clearSearchContent();
+			$('#search').val('');
+		}
+	}).modal('open');
+}
+
+function clearSearchContent(){
+	$('#search_modal .result-container').html('');
+	
 }
 
 function openSystemEditModal(type){
@@ -71,6 +95,7 @@ function openSystemEditModal(type){
 
 				}).catch(function(error){
 					errorMsg();
+					console.log(error);
 				});
 			},
 			complete: function(){
@@ -114,11 +139,20 @@ function compareTime(from,to,type="later"){
 	else return false;
 }
 
+/*///////////////////
+convert timestring to Javascript timestamp. 
+Input time value
+Return javascript timestamp value
+///////////////////*/
 function getJsTimestamp(time){
 	var time = time.substring(0, time.length - 2) + " " + time.substring(time.length, time.length - 2);
 	return time;
 }
 
+/*///////////////////
+upload temporary file
+return none
+///////////////////*/
 function image_upload_init(){
 	$('#image_upload').change(function(){
 
@@ -242,7 +276,6 @@ function appendNavCrumbs(crumbs){
 	else $('#page_crumbs').html('');
 }
 
-
 function timeFormat(timeString){
 	var H = +timeString.substr(0, 2);
 	var h = H % 12 || 12;
@@ -325,10 +358,9 @@ function resetPassword(id){
 			// show success message
 			showToast(response.message);
 
-			return false;
 			setTimeout(function(){
 				window.location.reload();
-			}, 1000);
+			}, 1500);
 
 		}).catch(function(error){
 			errorMsg();

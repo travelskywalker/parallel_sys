@@ -5,7 +5,7 @@
 	<div class="card-content"> -->
 		<div class="row s12">
 			<div class="col s2">
-				<img width="100" height="100" src="/{{$school->logo}}">
+				<img width="100" height="100" class="materialboxed" src="/{{$school->logo}}">
 			</div>
 			<div>
 				<h5>  {{$school->name}}</h5>
@@ -30,6 +30,7 @@
 				  <p><b>Address:</b> {{$school->address}}</p>
 			</div>
 		</div>
+
 		<div class="row s12">
 			<div class="col s4">
 				<div class="detail-card card hoverable s12">

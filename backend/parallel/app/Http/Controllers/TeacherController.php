@@ -77,19 +77,19 @@ class TeacherController extends Controller
      * @param  \App\Teachers  $teachers
      * @return \Illuminate\Http\Response
      */
-    public function show($fullpage = true, $id)
+    public function show($id, $fullpage = true)
     {
 
-        return $id;
+        // return $id;
         $teacher = Teacher::find($id);
 
         $sections = Teacher::find($id)->section;
 
-        // return view('pages.teacher.teacher')->with(['teacher' => $teacher, 'sections' => $sections, 'fullpage'=>$fullpage, 'page'=>'teacher']);
+        return view('pages.teacher.teacher')->with(['teacher' => $teacher, 'sections' => $sections, 'fullpage'=>$fullpage, 'page'=>'teacher']);
     }
 
     public function api_show($id){
-        return $this->show(false, $id);
+        return $this->show($id, false);
     }
 
     public function shownewteacher($fullpage=true){

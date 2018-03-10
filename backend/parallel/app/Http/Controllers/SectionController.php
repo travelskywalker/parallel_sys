@@ -124,7 +124,7 @@ class SectionController extends Controller
      * @param  \App\Sections  $sections
      * @return \Illuminate\Http\Response
      */
-    public function show(Section $section, Classes $classes, Teacher $teacher, $id)
+    public function show($id, $fullpage = true)
     {
         $section = Section::find($id);
 
@@ -134,7 +134,11 @@ class SectionController extends Controller
 
         // $students = Student::where('section_id','=',$id)->get();
 
-        return view('/pages.section.section')->with(['section'=>$section, 'teachers'=>$teachers, 'classes'=>$class]);
+        return view('/pages.section.section')->with(['section'=>$section, 'teachers'=>$teachers, 'classes'=>$class, 'fullpage'=>$fullpage]);
+    }
+
+    public function api_show($id){
+        return $this->show($id, false);
     }
 
     public function findData($id){

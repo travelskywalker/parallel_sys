@@ -12,7 +12,7 @@
 
 		<div class="row s12">
 		    <div class="col s12">
-		      <div class="card ">
+		      <div class="card hoverable">
 		        <div class="card-content">
 		        	<div class="row">
 			        	<div class="col s12">

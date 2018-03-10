@@ -1,1 +1,1 @@
-<li class="tab" type="index"><a class="active">Manage</a></li>
+<li class="tab" url="/student"><a class="waves-effect active">Manage</a></li>

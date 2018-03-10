@@ -1,5 +1,8 @@
 @section('pagescript')
 	<script src="/js/pages/admin/script.js"></script>
+	<script src="/js/widget/clock.js"></script>
+	<script src="/js/widget/search.js"></script>
+	<script src="/js/widget/contact.js"></script>
 @endsection
 
 @extends('layouts.app')

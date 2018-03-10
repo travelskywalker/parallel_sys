@@ -199,11 +199,11 @@
 
 
 		        </div>
-		        <div class="card-action">
+		        <!-- <div class="card-action">
 		          <div class="row">
 			  		<a class="waves-effect waves-light btn" onclick="admissionFormSubmit('admission_form','/api/admission/new')">Submit</a>
 			  	</div>
-		        </div>
+		        </div> -->
 		      </div>
 		    </div>
 		  </div>

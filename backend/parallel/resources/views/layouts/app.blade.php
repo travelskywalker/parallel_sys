@@ -17,13 +17,38 @@
     <link href="{{ asset('css/icons.set.css') }}" rel="stylesheet">
     <link href="{{ asset('css/materialize.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/appStyles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/widgets/style.css') }}" rel="stylesheet">
     @if(Auth::check()) <link href="/css/themes/{{Auth::user()->theme}}/style.css" rel="stylesheet"> @endif
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <body @if(Auth::check()) class="{{Auth::user()->theme}}" @endif>
 
-  <div class="search-page-modal">
+  <!-- Modal Structure -->
+  <div id="search_modal" class="modal modal-fixed-header search-page-modal custom-modal">
+    <div class="modal-header">
+      <div class="row s12">
+        <i class="material-icons right close modal-close waves-effect" title="close">close</i>
+        <div class="col s12">
+          <div class="input-field">
+                <input id="search" name="search" type="text" class="validate" onkeyup="search()">
+                <label for="search">Search</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-content-container">
+        <div class="col s12">
+            <div class="result-container">
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="search-page-modal custom-modal">
     <div class="search-container hoverable">
+      <i class="material-icons right close" title="close">close</i>
       <div class="row s12">
 
         <div class="col s12">
@@ -32,13 +57,18 @@
                 <label for="search">Search</label>
           </div>
         </div>
+
         <div class="col s12">
             <div class="result-container">
+
             </div>
         </div>
+
       </div>
     </div>
-  </div>
+  </div> -->
+
+
     <div id="app" class="@if(!Auth::check()) login @endif">
         <!-- <main class="py-4">
             @yield('content')
@@ -53,7 +83,7 @@
                   <a href="/home" class="brand-logo right">Parallel </a>
                   <a class="right school-logo"></a>
                   @if(Auth::check())
-                  <ul id="nav-mobile" class="left">
+                  <ul id="nav-mobile" class="hide-on-small-only left">
                     <li><a href="/admin">Admin</a></li>
                     <li><a href="/school">School</a></li>
                     <li><a href="/student">Student</a></li>
@@ -70,7 +100,7 @@
                       <ul class="tabs tabs-transparent sub-nav">
                         @yield('sub-bar')
 
-                        <li class="right system-tab right-align">
+                        <li class="right system-tab right-align hide-on-small-only">
                             <div id="system-clock">
                             </div>
                             <div >
@@ -172,6 +202,8 @@
 
 
 
+
+      @if(!Auth::check()) @include('auth.loginwidget') @endif
     <!-- Scripts -->
     <script
     src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>

@@ -37,11 +37,13 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/teacher', 'TeacherController@index');
 	Route::get('/s/teacher', 'TeacherController@api_index');
 
-	// Route::get('/teacher/{id}', 'TeacherController@show');
-	// Route::get('/s/teacher/{id}', 'TeacherController@api_show');
-
 	Route::get('/teacher/add', 'TeacherController@shownewteacher');
 	Route::get('/s/teacher/add', 'TeacherController@api_shownewteacher');
+
+	Route::get('/teacher/{id}', 'TeacherController@show');
+	Route::get('/s/teacher/{id}', 'TeacherController@api_show');
+
+	
 
 	// student
 	Route::get('/student', 'StudentController@index');
@@ -58,6 +60,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/s/classes/add', 'ClassesController@api_shownewclassesview');
 
 	Route::get('/classes/{id}', 'ClassesController@show');
+	Route::get('/s/classes/{id}', 'ClassesController@api_show');
 	
 
 	// section
@@ -69,6 +72,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('/s/section/add', 'SectionController@api_shownewsection');
 
 	Route::get('/section/{id}', 'SectionController@show');
+	Route::get('/s/section/{id}', 'SectionController@api_show');
 
 	// admin
 	Route::get('/admin', 'AdminController@index');
@@ -122,6 +126,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 	// system
 	Route::get('/system/search/{key}', 'SystemController@showresult');
+	Route::get('/system/contacts', 'SystemController@getContacts');
 
 
 	

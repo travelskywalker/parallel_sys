@@ -1,4 +1,4 @@
-.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user, .data-edit-btn{
+.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user, .data-edit-btn, .close, #search_modal .collection .collection-item{
 	cursor: pointer;
 }
 
@@ -57,7 +57,6 @@
 	padding: 5px;
     text-align: center;
     font-size: 10px;
-
 }
 
 .add-image-container::after {
@@ -103,10 +102,6 @@ nav .brand-logo.right{
 	min-height: 162px;
 }
 
-.modal-content-container {
-    margin-top: 30px;
-}
-
 #edit_modal h4{
 	position: fixed;
     width: 100%;
@@ -119,34 +114,111 @@ nav .brand-logo.right{
 }
 
 #app.login{
-	margin-top: 50vh;
+	margin-top: 40vh;
     transform: translateY(-50%);
+}
+
+div#app-main {
+    padding-top: 1em;
 }
 
 body{
 	background: #fafafa;
 }
 
-.search-page-modal {
+/*.search-page-modal {
     background: #ffffff5c;
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 999;
     display:none;
+}*/
+
+/*.search-container {
+    border: 1px solid #ececec;
+    height: 95%;
+    width: 80%;
+    margin: auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 1em;
+}*/
+
+#search_modal .collection{
+	border: none;
 }
 
-.search-container {
-	    border: 1px solid #ececec;
-	    height: 95%;
-	    width: 80%;
-	    margin: auto;
-	    margin-top: 50vh;
-	    transform: translateY(-50%);
-	    background: #fff;
-	    padding: 1em;
-	}
+#search_modal .modal-content{
+	margin-top: -40px;
+}
 
+.search-prompt {
+    color: gray;
+}
+
+.search-prompt b {
+    color: #000000;
+}
+/*for form details*/
+.form-details input:disabled, .form-details textarea:disabled, .form-details select:disabled{
+    color: black !important;
+    border-bottom: 1px solid black !important;
+}
+
+.form-details .disabled .caret{
+    display:none;
+}
+.form-details .add-image-container:after:disabled{
+    display:none;
+}
+
+.image-container{
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    background-color: #d4d4d4;
+    background-size: cover !important;
+    background-position: 50% 50% !important;
+}
+
+.thumb-image-container{
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    background-color: #d4d4d4;
+    background-size: cover !important;
+    background-position: 50% 50% !important;
+    display: inline-flex;
+}
+
+.main-btn{
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+
+}
+
+
+
+
+
+
+
+
+
+.login-widget {
+    border: 1px solid;
+    height: 20vh;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
 
 
 
