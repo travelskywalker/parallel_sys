@@ -1,4 +1,4 @@
-.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user, .data-edit-btn, .close, #search_modal .collection .collection-item{
+.back-btn, .data-row, .collapsible-body ul li, .logout, .breadcrumb, #system_user, .data-edit-btn, .close, #search_modal .collection .collection-item, .search-student-result .collection-item{
 	cursor: pointer;
 }
 
@@ -167,6 +167,18 @@ body{
     border-bottom: 1px solid black !important;
 }
 
+@media print {
+    /* Hide everything in the body when printing... */
+    body.printing * { display: none; }
+    /* ...except our special div. */
+    body.printing #print-me { display: block; }
+}
+
+@media screen {
+    /* Hide the special layer from the screen. */
+    #print-me { display: none; }
+}
+
 .form-details .disabled .caret{
     display:none;
 }
@@ -204,13 +216,26 @@ body{
 
 }
 
+.logout.active .preloader-wrapper {
+    margin-top: 6px;
+    margin-right: 6px;
+}
+
+.logout.active{
+    color: #8c8c8c;
+}
+
+.collection .collection-item.avatar{
+    min-height: auto;
+}
 
 
 
 
 
-
-
+.search-student{
+    display:none;
+}
 
 .login-widget {
     border: 1px solid;

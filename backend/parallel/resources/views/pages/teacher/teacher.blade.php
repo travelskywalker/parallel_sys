@@ -53,4 +53,6 @@
       
     	</div>
 
+    	@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
+
 @endif

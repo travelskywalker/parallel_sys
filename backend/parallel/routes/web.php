@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get('/school/classes/{id}', 'SchoolController@showclasses');
 
+	Route::get('/school/{id}/student/search/{key}', 'SchoolController@student_search');
+
 	// teacher
 	Route::get('/teacher', 'TeacherController@index');
 	Route::get('/s/teacher', 'TeacherController@api_index');
@@ -123,6 +125,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get('/admission/{id}', 'AdmissionController@show');
 	Route::get('/s/admission/{id}', 'AdmissionController@api_show');
+
+	Route::get('/admission/form/{type}/{id}', 'AdmissionController@showadmissionform');
 
 	// system
 	Route::get('/system/search/{key}', 'SystemController@showresult');

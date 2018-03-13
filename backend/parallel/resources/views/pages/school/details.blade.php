@@ -8,7 +8,7 @@
 				<img width="100" height="100" class="materialboxed" src="/{{$school->logo}}">
 			</div>
 			<div>
-				<h5>  {{$school->name}}</h5>
+				<h4>  {{$school->name}}</h4>
 					@if($school->title1) <p>{{$school->title1}}</p> @endif
 			  		@if($school->title2) <p>{{$school->title2}}</p> @endif
 			</div>
@@ -145,6 +145,6 @@
 </div> -->
 
 
-	
+	@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
 
 @endif

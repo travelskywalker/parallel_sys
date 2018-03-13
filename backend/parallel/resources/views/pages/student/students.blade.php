@@ -32,7 +32,7 @@
 				<td>{{$student->studentnumber}}</td>
 				<td>{{$student->lastname}} {{$student->firstname}} </td>
 				<td>{{$student->gender}}</td>
-				<td>{{$student->birthdate}}</td>
+				<td>{{Carbon\Carbon::parse($student->birthdate)->format('M d, Y')}}</td>
 				<td>{{$student->address}}</td>
 				<td>{{$student->fathersname}}</td>
 				<td>{{$student->mothersname}}</td>
@@ -47,6 +47,8 @@
 				@endforeach
 			</tbody>
 		</table>
+
+		@include('action-menu.menu',array( 'menus'=> ['print' ]) )
 	@else
 		No record in the database. Click <a href="/admission/new">here</a> for new admission.
 	@endif

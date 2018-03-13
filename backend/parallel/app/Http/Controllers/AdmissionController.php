@@ -68,48 +68,65 @@ class AdmissionController extends Controller
     public function create(Request $request)
     {
 
-        $validatedData = $request->validate([
+        if($request->type == 'new'){
+            $validatedData = $request->validate([
+                'school_id' => 'required',
+                'classes_id' => 'required',
+                'section_id' => 'required',
+                'admission_id' => 'required',
+                'student_id' => 'required',
+                'admission_date' =>'required',
+
+
+                'first_name' => 'required',
+                'middle_name' => 'required',
+                'last_name' => 'required',
+                'birthdate' => 'required',
+                'fathers_name' => 'required',
+                'mothers_name' => 'required',
+                'guardian_name' => 'required',
+                'emergencycontactnumber' => 'required',
+                'address' => 'required',
+                'gender' => 'required',
+            ]);
+
+            $request->birthdate = \Carbon\Carbon::parse($request->birthdate);
+
+            // create student
+            $student = Student::create([
+                'studentnumber' => $request->student_id,
+                'firstname' => $request->first_name,
+                'middlename' => $request->middle_name,
+                'lastname' => $request->last_name,
+                'gender' => $request->gender,
+                'birthdate' => $request->birthdate,
+                'birthplace' => $request->birthplace,
+                'bloodtype' => $request->bloodtype,
+                'address' =>$request->address,
+                'fathersname' => $request->fathers_name,
+                'mothersname' => $request->mothers_name,
+                'guardianname' => $request->guardian_name,
+                'guardianrelationship' => $request->guardianrelationship,
+                'emergencycontactnumber' => $request->emergencycontactnumber,
+                'nationality' => $request->nationality,
+                'religion' => $request->religion,
+                'status' => 'Admitted',
+            ]);
+
+        }else{
+            $validatedData = $request->validate([
             'school_id' => 'required',
             'classes_id' => 'required',
             'section_id' => 'required',
             'admission_id' => 'required',
             'student_id' => 'required',
-            'admission_date' =>'required',
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
-            'birthdate' => 'required',
-            'fathers_name' => 'required',
-            'mothers_name' => 'required',
-            'guardian_name' => 'required',
-            'emergencycontactnumber' => 'required',
-            'address' => 'required',
-            'gender' => 'required',
-        ]);
+            'admission_date' =>'required'
+            ]);
 
-        $request->birthdate = \Carbon\Carbon::parse($request->birthdate);
+            $student = Student::find($request->student_id);
+        }
+
         $request->admission_date = \Carbon\Carbon::parse($request->admission_date);
-
-        // create student
-        $student = Student::create([
-            'studentnumber' => $request->student_id,
-            'firstname' => $request->first_name,
-            'middlename' => $request->middle_name,
-            'lastname' => $request->last_name,
-            'gender' => $request->gender,
-            'birthdate' => $request->birthdate,
-            'birthplace' => $request->birthplace,
-            'bloodtype' => $request->bloodtype,
-            'address' =>$request->address,
-            'fathersname' => $request->fathers_name,
-            'mothersname' => $request->mothers_name,
-            'guardianname' => $request->guardian_name,
-            'guardianrelationship' => $request->guardianrelationship,
-            'emergencycontactnumber' => $request->emergencycontactnumber,
-            'nationality' => $request->nationality,
-            'religion' => $request->religion,
-            'status' => 'Admitted',
-        ]);
 
         $admission = Admission::create([
             'student_id' => $student->id,
@@ -179,6 +196,17 @@ class AdmissionController extends Controller
 
     public function api_show($id){
         return $this->show($id, false);
+    }
+
+    public function showadmissionform($type,$id){
+
+        $student = Student::find($id);
+
+        if($type == 'new'){
+            return view('pages.admission.new-admission-form');
+        }else{
+            return view('pages.admission.old-admission-form')->with(['student'=>$student]);
+        }
     }
 
     public function searchAdmissionData($admissionnumber, $userschoolid){

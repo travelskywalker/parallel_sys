@@ -1,2 +1,2 @@
-<li class="tab" url="/classes"><a class="@if($page == 'index') active @endif waves-effect">Manage</a></li>
-<li class="tab" url="/classes/add"><a class="@if($page == 'add') active @endif waves-effect">Add</a></li>
+<li class="tab" id="data-index" url="/classes"><a class="@if($page == 'index') active @endif waves-effect">Manage</a></li>
+<li class="tab" id="data-add" url="/classes/add"><a class="@if($page == 'add') active @endif waves-effect">Add</a></li>

@@ -49,6 +49,35 @@ function init(){
 		});
 	});
 
+	$('select#admission_type').change(function(){
+
+		if($(this).val() == 'old'){
+			$('.search-student').show();
+			$('#search_student').focus();
+
+			disableAdmissionBtn();
+			// showAdmissionForm('old');
+		}else{
+			$('.search-student').hide();
+			showAdmissionForm();
+		}
+
+	});
+
+	$('#search_student').keyup(function(){
+		var key = $(this).val();
+		var school_id = $('select#admission_school_id').val();
+		var url = '/school/'+school_id+'/student/search/'+key;
+
+		if(key.length >=2){
+			sendAPI('GET', url).then(function(response){
+				$('.search-student-result').html(response);
+				
+			});
+		}else{
+			$('.search-student-result').html('');
+		}
+	});
 
 	$('select#admission_section_id').change(function(){
 
@@ -140,6 +169,24 @@ function init(){
 	});
 }
 
+function populateAdmissionData(id){
+	showAdmissionForm('old', id);
+}
+
+function showAdmissionForm(type = 'new', id=0){
+
+	url = '/admission/form/'+type+'/'+id;
+
+	sendAPI('GET', url).then(function(response){
+		$('.admission-form').html(response);
+		clearSearchStudent();
+
+		formInit();
+		enableAdmissionBtn();
+	});
+	
+}
+
 function clearSectionData(){
 	$('#admission_section_id option').remove();
 	$('#admission_section_id').append('<option value="" disabled selected>select section</option>');
@@ -153,6 +200,20 @@ function clearClassData(){
 
 function clearError(){
 	$('.error-message').html('');
+}
+
+function clearSearchStudent(){
+	$('#search_student').val('');
+	$('.search-student-result').html('');
+
+}
+
+function disableAdmissionBtn(){
+	$('.admission-btn').addClass('disabled');
+}
+
+function enableAdmissionBtn(){
+	$('.admission-btn').removeClass('disabled');
 }
 
 

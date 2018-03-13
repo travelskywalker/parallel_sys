@@ -15,6 +15,7 @@ class CreateAdmissionsTable extends Migration
     {
         Schema::create('admissions', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('type')->default('new');
             $table->integer('admissionnumber');
             $table->date('date');
             $table->integer('student_id');

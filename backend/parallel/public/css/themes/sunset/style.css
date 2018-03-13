@@ -1,0 +1,31 @@
+nav{
+	background-color: #ff8250;
+}
+
+.nav-content{
+	background-color: #ffbb3e;
+}
+
+nav ul a{
+	color: #000000;
+}
+
+.system-tab{
+	color: black;
+}
+
+.tabs.tabs-transparent .indicator{
+	background: red;
+}
+
+.tabs.tabs-transparent .tab a:hover, .tabs.tabs-transparent .tab a.active{
+	color: black;
+}
+
+.tabs.tabs-transparent .tab a, .tabs.tabs-transparent .tab.disabled a, .tabs.tabs-transparent .tab.disabled a:hover{
+	color: gray;
+}
+
+.btn-floating{
+	background-color: #03a9f4;
+}

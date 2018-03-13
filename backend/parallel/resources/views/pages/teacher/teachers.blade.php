@@ -6,7 +6,7 @@
 		<table class="bordered highlight">
 			<thead>
 			  <tr>
-			  	  <th>ID Number</th>
+			  	  <th>Teacher Number</th>
 			      <th>Name</th>
 			      @if(Auth::user()->access_id == 0)<th>School</th> @endif
 			      <th>Notes</th>
@@ -29,6 +29,9 @@
 				@endforeach
 			</tbody>
 		</table>
+
+		@include('action-menu.menu',array( 'menus'=> ['print','add' ]) )
+		
 	@else
 		No record in the database. Click <a href="/teacher/add">here</a> to add.
 	@endif

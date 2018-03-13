@@ -1,6 +1,16 @@
 @if($fullpage)
 	@include('pages.student.index')
 @else
+
+<div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#test1">Test 1</a></li>
+        <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+      </ul>
+    </div>
+    <div id="test1" class="col s12">Test 1</div>
+    <div id="test2" class="col s12">Test 2</div>
+
 <div class="form-details">
 		<div class="row">
 				<div class="col s4">
@@ -28,7 +38,7 @@
 			  	</div>
 			  	<div class="col s8">
 			  		<div class="input-field col s6">
-			          <input id="time" type="text" class="validate" value="{{$student[0]->timefrom}} - {{$student[0]->timeto}}" disabled>
+			          <input id="time" type="text" class="validate" value="{{Carbon\Carbon::parse($student[0]->timefrom)->format('h:i A')}} - {{Carbon\Carbon::parse($student[0]->timeto)->format('h:i A')}}" disabled>
 			          <label for="time">Time</label>
 					</div>
 					<div class="input-field col s6">
@@ -159,4 +169,6 @@
 
 	</div>
 </div>
+
+@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
 @endif

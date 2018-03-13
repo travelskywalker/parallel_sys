@@ -208,4 +208,6 @@
 		    </div>
 		  </div>
 	</form>
+
+	@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
 @endif

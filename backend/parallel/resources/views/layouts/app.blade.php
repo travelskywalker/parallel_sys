@@ -23,6 +23,8 @@
 </head>
 <body @if(Auth::check()) class="{{Auth::user()->theme}}" @endif>
 
+  <div id="print_div"></div>
+
   <!-- Modal Structure -->
   <div id="search_modal" class="modal modal-fixed-header search-page-modal custom-modal">
     <div class="modal-header">
@@ -80,8 +82,10 @@
 
             <nav class="nav-extended">
                 <div class="nav-wrapper">
-                  <a href="/home" class="brand-logo right">Parallel </a>
-                  <a class="right school-logo"></a>
+                  <div class="hide-on-med-and-down">
+                    <a href="/home" class="brand-logo right">Parallel </a>
+                    <a class="right school-logo"></a>
+                  </div>
                   @if(Auth::check())
                   <ul id="nav-mobile" class="hide-on-small-only left">
                     <li><a href="/admin">Admin</a></li>
@@ -91,7 +95,7 @@
                     <li><a href="/classes">Class</a></li>
                     <li><a href="/section">Section</a></li>
                     <li><a href="/admission">Admission</a></li>
-                    <li><a onclick="opensearch()">search</a></li>
+                    <li><a onclick="opensearch()"><i class="material-icons">search</i></a></li>
                   </ul>
                   @endif
                 </div>

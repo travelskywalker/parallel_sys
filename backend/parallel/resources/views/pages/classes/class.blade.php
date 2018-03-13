@@ -16,4 +16,6 @@
 	<div class="row">
 		<div class="col"><b>Status:</b> {{$class->status}}</div>
 	</div>
+
+	@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
 @endif

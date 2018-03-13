@@ -1,6 +1,6 @@
 function loader(message='default'){
 	var loader = '<div class="preloader-wrapper small active">';
-		loader += '<div class="spinner-layer spinner-green-only">';
+		loader += '<div class="spinner-layer spinner-red-only">';
 		loader += '<div class="circle-clipper left">';
 		loader += '<div class="circle"></div>';
 		loader += '</div><div class="gap-patch">';
@@ -469,6 +469,32 @@ function uploadTempImg(url, data){
 		        }
 		    })
 		);
+}
+
+function printBtn(){
+	alert('print document');
+	return;
+	// if(window.print()) console.log('printing');
+	window.print();
+	console.log(printing);
+	//Copy the element you want to print to the print-me div.
+    $("#app-main").clone().appendTo("#print_div");
+    //Apply some styles to hide everything else while printing.
+    $("body").addClass("printing");
+    //Print the window.
+    window.print();
+    //Restore the styles.
+    $("body").removeClass("printing");
+    //Clear up the div.
+    $("#print_div").empty();
+}
+
+function addBtn(){
+	$('#data-add').click();
+}
+
+function editBtn(){
+	alert('open edit view');
 }
 
 function tutorial(){

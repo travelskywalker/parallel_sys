@@ -150,6 +150,28 @@ class SchoolController extends Controller
 
         return response()->json(['data'=>$teachers]);
     }
+
+    public function student_search($id,$key){
+        
+        $students = DB::table('students')
+                    ->select('students.*', 'admissions.student_id', 'schools.name as school_name','students.id')
+                    ->leftJoin('admissions', 'admissions.student_id', '=', 'students.id')
+                    ->leftJoin('schools', 'admissions.school_id', 'schools.id')
+                    ->where('admissions.school_id','=', $id)
+                    ->where(function($q) use ($key){
+                        $q->orWhere('students.firstname', 'like', '%'. $key .'%');
+                        $q->orWhere('students.middlename', 'like', '%'.$key.'%');
+                        $q->orWhere('students.lastname', 'like', '%'. $key . '%');
+                        $q->orWhere('students.studentnumber', 'like', '%'. $key . '%');
+                    })
+                    ->groupBy('students.id')
+                    ->limit(5)
+                    ->get();
+
+                    // dd($students);
+
+        return view('pages.admission.student-search')->with(['students'=>$students]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

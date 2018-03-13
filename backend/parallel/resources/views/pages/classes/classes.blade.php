@@ -27,6 +27,9 @@
 				@endforeach
 			</tbody>
 		</table>
+
+		@include('action-menu.menu',array( 'menus'=> ['print','add' ]) )
+		
 	@else
 		No record in the database. Click <a href="/classes/add">here</a> to add.
 	@endif

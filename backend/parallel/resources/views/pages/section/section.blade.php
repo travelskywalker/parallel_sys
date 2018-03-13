@@ -18,4 +18,6 @@
 			<div class="col">students</div>
 		</div>
 	</div>
+
+	@include('action-menu.menu',array( 'menus'=> ['print','edit' ]) )
 @endif
